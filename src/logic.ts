@@ -4,13 +4,30 @@
 // import isAfter from 'date-fns/isAfter'
 import { v4 as uuidv4 } from 'uuid'
 
+class User {
+   name: string
+   listOfLists: Map<string, TodoList>
+
+   constructor(name="New User") {
+        this.name = name
+        this.listOfLists = new Map().set("My List", new TodoList(this))
+   }
+}
+
 class TodoList {
     title: string
     todos: Todo[]
+    user: User
 
-    constructor(title="New Todo List") {
+    constructor(user: User, title="New Todo List") {
         this.title = title;
         this.todos = [];
+        this.user = user
+    }
+
+    createTodo(): Todo {
+        const newTodo = new Todo(this);
+        return newTodo;
     }
 }
 
@@ -23,7 +40,7 @@ class Todo {
     complete: boolean
     parentList: TodoList | null
 
-    constructor(parent: TodoList) {
+    constructor(parent: TodoList | null) {
         this.id = uuidv4();
         this.title = "New Todo";
         this.description = "";
@@ -34,10 +51,7 @@ class Todo {
     }
 }
 
-const defaultTodoList: TodoList = new TodoList();
-
-export {defaultTodoList}
-
+export {User};
 // export default function Lister() {
 
 //   const todoLists = {

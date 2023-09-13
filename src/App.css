@@ -5,3 +5,11 @@
   text-align: center;
 }
 
+ul {
+  display: flex;
+  flex-direction: column;
+}
+li {
+  font-weight: bold;
+  text-align: left;
+}
