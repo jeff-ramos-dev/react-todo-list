@@ -5,24 +5,29 @@
 import { v4 as uuidv4 } from 'uuid'
 
 class User {
-   name: string
-   listOfLists: Map<string, TodoList>
+    name: string;
+    listOfLists: Map<string, TodoList>;
 
-   constructor(name="New User") {
-        this.name = name
-        this.listOfLists = new Map().set("My List", new TodoList(this))
-   }
+    constructor(name="New User") {
+            this.name = name;
+            this.listOfLists = new Map().set("My List", new TodoList(this));
+    }
+
+    createTodoList(): TodoList {
+        const newTodoList = new TodoList(this);
+        return newTodoList;
+    }
 }
 
 class TodoList {
-    title: string
-    todos: Todo[]
-    user: User
+    title: string;
+    todos: Todo[];
+    user: User;
 
     constructor(user: User, title="New Todo List") {
         this.title = title;
         this.todos = [];
-        this.user = user
+        this.user = user;
     }
 
     createTodo(): Todo {
@@ -32,13 +37,13 @@ class TodoList {
 }
 
 class Todo {
-    id: string 
-    title: string
-    description: string
-    dueDate: Date
-    urgent: boolean
-    complete: boolean
-    parentList: TodoList | null
+    id: string;
+    title: string;
+    description: string;
+    dueDate: Date;
+    urgent: boolean;
+    complete: boolean;
+    parentList: TodoList | null;
 
     constructor(parent: TodoList | null) {
         this.id = uuidv4();
@@ -48,6 +53,18 @@ class Todo {
         this.urgent = false;
         this.complete = false;
         this.parentList = parent;
+    }
+
+    updateTitle(newTitle: string): void {
+        this.title = newTitle;
+    }
+
+    updateDescription(newDescription: string): void {
+        this.description = newDescription;
+    }
+
+    updateDueDate(newDate: Date): void {
+        this.dueDate = newDate;
     }
 }
 
