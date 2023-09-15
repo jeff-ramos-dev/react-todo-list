@@ -167,4 +167,8 @@ class Todo {
     }
 }
 
-export {User};
+export {
+    User,
+    TodoList,
+    Todo
+};
