@@ -8,7 +8,9 @@
   --todo-incomplete: rgb(114, 38, 38);
 }
 
+
 body {
+  margin-top: 0;
   border: 2px solid white;
 }
 
@@ -23,22 +25,29 @@ li {
 
 .todoContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   margin-top: 2rem;
-  padding: 0 1rem;
-  border-radius: 4px;
+  padding: 1rem;
+  border-radius: 10px;
   background-color: var(--todo-incomplete);
 }
 
-.todoDetailsContainer {
+.todoRight {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 10px;
+}
+
+.picker {
+  width: 80px;
+  background-color: transparent;
+  border: none;
 }
 
 .todoTitle {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: white;
   font-weight: bold;
 }
@@ -57,4 +66,8 @@ li {
 
 .complete {
   background-color: var(--todo-complete);
+}
+
+.edit {
+  width: 30px;
 }
