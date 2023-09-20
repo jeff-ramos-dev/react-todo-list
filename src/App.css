@@ -3,6 +3,13 @@
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
+  --accent-color: rgb(160, 6, 187);
+  --todo-complete: rgb(58, 108, 62);
+  --todo-incomplete: rgb(114, 38, 38);
+}
+
+body {
+  border: 2px solid white;
 }
 
 ul {
@@ -12,4 +19,42 @@ ul {
 li {
   font-weight: bold;
   text-align: left;
+}
+
+.todoContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  padding: 0 1rem;
+  border-radius: 4px;
+  background-color: var(--todo-incomplete);
+}
+
+.todoDetailsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todoTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.todoDetail {
+  font-weight: bold;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 1rem;
+}
+
+.urgent {
+  border-left: 6px solid orange;
+  border-radius: 6px;
+}
+
+.complete {
+  background-color: var(--todo-complete);
 }
