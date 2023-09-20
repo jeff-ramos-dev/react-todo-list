@@ -1,33 +1,30 @@
 import './App.css'
+import TodoCard from './components/Todo'
+import AllUserTodos from './components/AllUserTodos'
 import { User } from './classes'
 
 function App() {
   const user = new User();
-  const myList = user.listOfLists.get('My List');
-  if (!myList) return;
-  const myTodo = myList?.createTodo();
+  const defaultList = user.listOfLists.get('My List');
+  if (!defaultList) return;
+  const myTodo = defaultList?.createTodo();
   if (!myTodo) return;
   myTodo.description = "a new todo";
 
-  function formatDate(date: Date): string{
-    return date.toString().split(' ').slice(0, 4).join(' ');
-  }
-
+  defaultList.createTodo();
+  defaultList.createTodo();
+  defaultList.createTodo();
 
   return (
     <>
       <h1>Lister</h1>
-      <h2>username : {user.name}</h2>
-      <h3>listname : {myList.title}</h3>
-      <ul>
-        <li>todo id : {myTodo.id}</li>
-        <li>todo title : {myTodo.title}</li>
-        <li>todo description : {myTodo.description}</li>
-        <li>todo date : {formatDate(myTodo.dueDate)}</li>
-        <li>todo urgent? : {myTodo.urgent.toString()}</li>
-        <li>todo complete? : {myTodo.complete.toString()}</li>
-        <li>todo parent list: {myTodo.parentList?.title.toString()}</li>
-      </ul>
+      <h3>{defaultList.title}</h3>
+      <TodoCard
+        todo={myTodo}
+      />
+      <AllUserTodos 
+        list={defaultList} 
+      />
     </>
   )
 }
