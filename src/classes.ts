@@ -14,7 +14,8 @@ class User {
 
     constructor(name="New User") {
             this.name = name;
-            this.listOfLists = new Map().set("My List", new TodoList(this));
+            const listTitle = `${name}'s List`
+            this.listOfLists = new Map().set(listTitle, new TodoList(this, listTitle));
     }
 
     createTodoList(title: string): void {
@@ -37,8 +38,8 @@ class TodoList {
         this.user = user;
     }
 
-    createTodo(): Todo {
-        const newTodo = new Todo(this);
+    createTodo(title?: string): Todo {
+        const newTodo = new Todo(this, title);
         this.todos.set(newTodo.id, newTodo);
         return newTodo;
     }
@@ -132,9 +133,9 @@ class Todo {
     complete: boolean;
     parentList: TodoList | null;
 
-    constructor(parent: TodoList | null) {
+    constructor(parent: TodoList | null, title: string = "New Todo") {
         this.id = uuidv4();
-        this.title = "New Todo";
+        this.title = title;
         this.description = "";
         this.dueDate = new Date();
         this.urgent = false;

@@ -2,7 +2,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Todo } from '../classes'
 import { useState } from 'react'
-import { formatDate } from '../utils'
+import editImg from '../assets/editImg.png'
 interface TodoCardProps {
     todo: Todo;
 }
@@ -16,15 +16,16 @@ export default function TodoCard({ todo }: TodoCardProps) {
             key={todo.id}
         >
             <p className="todoTitle">{todo.title}</p>
-            <div className="todoDetailsContainer">
+            <div className="todoRight">
                 <DatePicker 
+                    className="picker"
                     selected={currDate} 
                     onChange={(date: Date) => {
                         todo.updateDueDate(date)
                         setCurrDate(date);
                     }}
                 />
-                <p className="todoDetail">{formatDate(todo.dueDate)}</p>
+                <img src={editImg} className="edit"></img>
             </div>
         </div>
     )

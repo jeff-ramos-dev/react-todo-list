@@ -4,24 +4,22 @@ import AllUserTodos from './components/AllUserTodos'
 import { User } from './classes'
 
 function App() {
-  const user = new User();
-  const defaultList = user.listOfLists.get('My List');
+  const user = new User('Jeff');
+  const defaultList = user.listOfLists.get(`${user.name}'s List`);
   if (!defaultList) return;
   const myTodo = defaultList?.createTodo();
   if (!myTodo) return;
   myTodo.description = "a new todo";
 
-  defaultList.createTodo();
-  defaultList.createTodo();
-  defaultList.createTodo();
+  defaultList.createTodo("Groceries");
+  defaultList.createTodo("Send Email");
+  defaultList.createTodo("Take out Trash");
+  defaultList.createTodo("Super long title that nobody should be trying to write here");
 
   return (
     <>
       <h1>Lister</h1>
-      <h3>{defaultList.title}</h3>
-      <TodoCard
-        todo={myTodo}
-      />
+      <h2>{defaultList.title}</h2>
       <AllUserTodos 
         list={defaultList} 
       />
