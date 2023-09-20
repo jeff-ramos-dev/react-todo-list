@@ -1,5 +1,4 @@
 import './App.css'
-import TodoCard from './components/Todo'
 import AllUserTodos from './components/AllUserTodos'
 import { User } from './classes'
 
