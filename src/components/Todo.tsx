@@ -12,7 +12,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
 
     return (
         <div 
-            className={`todoContainer ${todo.urgent ? 'urgent' : null} ${todo.complete ? 'complete' : null}`}
+            className={`todoContainer${todo.urgent ? ' urgent' : ''}${todo.complete ? ' complete' : ''}`}
             key={todo.id}
         >
             <p className="todoTitle">{todo.title}</p>

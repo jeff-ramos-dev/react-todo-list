@@ -1,18 +1,14 @@
 import TodoCard from './Todo'
 import { Todo, TodoList } from '../classes'
-import differenceInCalendarMonths from 'date-fns/differenceInCalendarMonths'
 
 interface TodoListProps {
     list: TodoList | undefined
 }
 
-export default function MonthTodos({ list }: TodoListProps) {
+export default function AllTodos({ list }: TodoListProps) {
     const todos: Todo[] = []
     list?.todos.forEach(todo => {
-        const today = new Date();
-        if(differenceInCalendarMonths(today, todo.dueDate) === 0) {
-            todos.push(todo);
-        }
+        todos.push(todo);
     })
     const cards = todos.map(todo => {
         return (

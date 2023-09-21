@@ -3,9 +3,9 @@
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
-  --accent-color: rgb(160, 6, 187);
-  --todo-complete: rgb(58, 108, 62);
-  --todo-incomplete: rgb(114, 38, 38);
+  --accent-color: #ed6e04;
+  --todo-incomplete: #604f8f;
+  --todo-complete: #f0dfff;
 }
 
 
@@ -17,10 +17,59 @@ body {
 ul {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
+
 li {
   font-weight: bold;
   text-align: left;
+  list-style-type: none;
+  text-align: center;
+  margin: 0.4rem 0;
+}
+
+.todoGroupContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.todoGroup {
+  cursor: pointer;
+  width: fit-content;
+}
+
+.todoGroupMenu {
+  position: absolute;
+  top: 50px;;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  padding-bottom: 20px;
+  background-color: var(--todo-incomplete);
+  border: 2px solid var(--todo-complete);
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoGroupMenuOption, .todoGroupMenuOption:target {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+.todoGroupMenuOption:hover {
+  color: var(--accent-color);
+  cursor: pointer;
 }
 
 .todoContainer {
@@ -30,6 +79,10 @@ li {
   padding: 1rem;
   border-radius: 10px;
   background-color: var(--todo-incomplete);
+}
+
+.todoContainer:hover {
+  transform: translate(-2px, -2px);
 }
 
 .todoRight {
@@ -43,6 +96,7 @@ li {
   width: 80px;
   background-color: transparent;
   border: none;
+  margin-right: 10px;
 }
 
 .todoTitle {
