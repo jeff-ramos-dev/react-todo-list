@@ -50,50 +50,50 @@ class TodoList {
 
     getAllTodos(): Todo[] {
         const todoArray: Todo[] = [];
-        for (const value of Object.values(this.todos)) {
-            todoArray.push(value);
-        }
+        this.todos.forEach(todo => {
+            todoArray.push(todo);
+        })
         return todoArray;
     }
 
     getCompleteTodos(): Todo[] {
         const completedTodos: Todo[] = [];
-        for (const value of Object.values(this.todos)) {
-            if (value.complete) {
-                completedTodos.push(value)
+        this.todos.forEach(todo => {
+            if (todo.complete) {
+                completedTodos.push(todo)
             }
-        }
+        })
         return completedTodos;
     }
 
     getIncompleteTodos(): Todo[] {
         const incompleteTodos: Todo[] = [];
-        for (const value of Object.values(this.todos)) {
-            if (!value.complete) {
-                incompleteTodos.push(value)
+        this.todos.forEach(todo => {
+            if (!todo.complete) {
+                incompleteTodos.push(todo)
             }
-        }
+        })
         return incompleteTodos;
     }
 
     getUrgentTodos(): Todo[] {
         const urgentTodos: Todo[] = [];
-        for (const value of Object.values(this.todos)) {
-            if (value.urgent) {
-                urgentTodos.push(value)
+        this.todos.forEach(todo => {
+            if (todo.urgent) {
+                urgentTodos.push(todo)
             }
-        }
+        })
         return urgentTodos;
     }
     
     getTodayTodos(): Todo[] {
         const todayTodos: Todo[] = [];
         const today = new Date();
-        for (const value of Object.values(this.todos)) {
-            if (differenceInCalendarDays(value.dueDate, today) === 0) {
-                todayTodos.push(value);
+        this.todos.forEach(todo => {
+            if (differenceInCalendarDays(todo.dueDate, today) === 0) {
+                todayTodos.push(todo);
             }
-        }
+        })
         todayTodos.sort();
         return todayTodos;
     }
@@ -101,11 +101,11 @@ class TodoList {
     getWeekTodos(): Todo[] {
         const weekTodos: Todo[] = [];
         const today = new Date();
-        for (const value of Object.values(this.todos)) {
-            if (differenceInCalendarWeeks(value.dueDate, today) === 0) {
-                weekTodos.push(value);
+        this.todos.forEach(todo => {
+            if (differenceInCalendarWeeks(todo.dueDate, today) === 0) {
+                weekTodos.push(todo);
             }
-        }
+        })
         weekTodos.sort(compareDates);
         return weekTodos; 
     }
@@ -113,11 +113,11 @@ class TodoList {
     getMonthTodos(): Todo[] {
         const monthTodos: Todo[] = []; 
         const today = new Date();
-        for (const value of Object.values(this.todos)) {
-            if (differenceInCalendarMonths(value.dueDate, today) === 0) {
-                monthTodos.push(value);
+        this.todos.forEach(todo => {
+            if (differenceInCalendarMonths(todo.dueDate, today) === 0) {
+                monthTodos.push(todo);
             }
-        }
+        })
         monthTodos.sort(compareDates);
         return monthTodos;
     }

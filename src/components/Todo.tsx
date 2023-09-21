@@ -3,6 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Todo } from '../classes'
 import { useState } from 'react'
 import editImg from '../assets/editImg.png'
+
 interface TodoCardProps {
     todo: Todo;
 }
