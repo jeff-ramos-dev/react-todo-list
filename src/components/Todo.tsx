@@ -1,15 +1,26 @@
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { Todo } from '../classes'
-import { useState } from 'react'
 import editImg from '../assets/editImg.png'
+import { formatDate } from '../utils'
+import { useState } from 'react'
 
 interface TodoCardProps {
     todo: Todo;
+    /*onUpdateDueDate: Function*/
 }
 
-export default function TodoCard({ todo }: TodoCardProps) {
-    const [currDate, setCurrDate] = useState(todo.dueDate)
+
+export default function TodoCard({ todo, /*onUpdateDueDate*/ }: TodoCardProps) {
+    const [currDate, setCurrDate] = useState(todo.dueDate);
+
+/*
+    const handleDueDateChange: React.ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target) {
+            const target = event.target as HTMLInputElement
+            const newDueDate = new Date(target.value);
+            onUpdateDueDate(todo.id, newDueDate)
+        }
+    }
+*/
 
     return (
         <div 
@@ -18,12 +29,14 @@ export default function TodoCard({ todo }: TodoCardProps) {
         >
             <p className="todoTitle">{todo.title}</p>
             <div className="todoRight">
-                <DatePicker 
+                <input
+                    type="date" 
                     className="picker"
-                    selected={currDate} 
-                    onChange={(date: Date) => {
-                        todo.updateDueDate(date)
-                        setCurrDate(date);
+                    onChange={(e) => {
+                        const target = e.target as HTMLInputElement
+                        const value = target.value
+                        todo.updateDueDate(new Date(value));
+                        setCurrDate(new Date(value));
                     }}
                 />
                 <img src={editImg} className="edit"></img>

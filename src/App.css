@@ -5,7 +5,7 @@
   text-align: center;
   --accent-color: #ed6e04;
   --todo-incomplete: #604f8f;
-  --todo-complete: #f0dfff;
+  --todo-complete: #545454;
 }
 
 
@@ -79,10 +79,11 @@ li {
   padding: 1rem;
   border-radius: 10px;
   background-color: var(--todo-incomplete);
+  cursor: pointer;
 }
 
 .todoContainer:hover {
-  transform: translate(-2px, -2px);
+  filter: brightness(120%);
 }
 
 .todoRight {
@@ -93,10 +94,11 @@ li {
 }
 
 .picker {
-  width: 80px;
+  width: 100px;
   background-color: transparent;
   border: none;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .todoTitle {
@@ -124,4 +126,8 @@ li {
 
 .edit {
   width: 30px;
+}
+
+.edit:hover {
+  filter:invert(100%);
 }

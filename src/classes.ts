@@ -14,8 +14,7 @@ class User {
 
     constructor(name="New User") {
             this.name = name;
-            const listTitle = `${name}'s List`
-            this.listOfLists = new Map().set(listTitle, new TodoList(this, listTitle));
+            this.listOfLists = new Map();
     }
 
     createTodoList(title: string): void {
