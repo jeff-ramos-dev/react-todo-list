@@ -1,37 +1,36 @@
 import { Todo } from '../classes'
 import editImg from '../assets/editImg.png'
-import { formatDate } from '../utils'
 import { useState } from 'react'
 
 interface TodoCardProps {
     todo: Todo;
-    /*onUpdateDueDate: Function*/
 }
 
 
-export default function TodoCard({ todo, /*onUpdateDueDate*/ }: TodoCardProps) {
+export default function TodoCard({ todo }: TodoCardProps) {
     const [currDate, setCurrDate] = useState(todo.dueDate);
-
-/*
-    const handleDueDateChange: React.ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target) {
-            const target = event.target as HTMLInputElement
-            const newDueDate = new Date(target.value);
-            onUpdateDueDate(todo.id, newDueDate)
-        }
-    }
-*/
+    const [currCompleteStatus, setCurrCompleteStatus] = useState(todo.complete);
+    const [currUrgentStatus, setCurrUrgentStatus] = useState(todo.urgent);
 
     return (
         <div 
-            className={`todoContainer${todo.urgent ? ' urgent' : ''}${todo.complete ? ' complete' : ''}`}
+            className={
+                `todoContainer
+                ${currUrgentStatus ? ' urgent' : ''}
+                ${currCompleteStatus ? ' complete' : ''}`
+            }
             key={todo.id}
+            onClick={() => {
+                todo.complete = !todo.complete
+                setCurrCompleteStatus(todo.complete);
+            }}
         >
             <p className="todoTitle">{todo.title}</p>
             <div className="todoRight">
                 <input
                     type="date" 
                     className="picker"
+                    value={currDate.toISOString().slice(0,10)}
                     onChange={(e) => {
                         const target = e.target as HTMLInputElement
                         const value = target.value

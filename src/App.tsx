@@ -1,14 +1,13 @@
 import './App.css'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu';
-import { User, TodoList, Todo } from './classes'
+import { User } from './classes'
 import { useState, useEffect } from 'react'
 
 function App() {
   console.log('render');
   const [user, setUser] = useState(new User('Jeff'));
-  const [todoList, setTodoList] = useState(new TodoList(user, `${user.name}'s List`));
-  const [todos, setTodos] = useState(todoList.getAllTodos())
+  const [currList, setCurrList] = useState(user.listOfLists.get(`${user.name}'s List`))
   const [selectedGroup, setSelectedGroup] = useState("All Todos");
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -44,33 +43,35 @@ function App() {
 
   useEffect(() => {
     console.log('initial useEffect called');
-    const updatedTodoList = new TodoList(user, 'dummy list');
-    updatedTodoList.createTodo("Groceries").urgent = true;
-    updatedTodoList.createTodo("Send Email").urgent = true;
-    updatedTodoList.createTodo("Take out Trash").complete = true;
-    updatedTodoList.createTodo("Super long title that nobody should be trying to write here").complete = true;
-    updatedTodoList.title = `${user.name}'s List`
-    setTodoList(updatedTodoList);
+    const newUser = new User(user.name);
+    user.createTodoList(`${user.name}'s List`);
+    const newTodoList = user.listOfLists.get(`${user.name}'s List`)
+    if (newTodoList) {
+      newTodoList.createTodo("Groceries").urgent = true;
+      newTodoList.createTodo("Send Email").urgent = true;
+      newTodoList.createTodo("Take out trash").complete = true;
+      newTodoList.createTodo("Super long title that nobody should be trying to write here").complete = true;
+    }
+    setUser(newUser);
   }, [])
 
   useEffect(() => {
     console.log('useEffect called');
-    setTodos(todoList.getAllTodos());
-  }, [todoList]);
-/*
-  function handleUpdateTodos(updatedTodos: Todo[]) {
-    setTodos(updatedTodos)
-  }
-*/
+    const newList = user.listOfLists.get(`${user.name}'s List`);
+    if (newList) {
+      setCurrList(newList);
+    }
+  }, [user]);
+
   return (
     <>
       <h1>Lister</h1>
-      {todoList && <h2 className="listTitle">{todoList.title}</h2>}
+      {currList && <h2 className="listTitle">{currList.title}</h2>}
       <div className="todoGroupContainer">
         <h3 onClick={toggleMenu} className="todoGroup">{selectedGroup}</h3>
         {isMenuVisible && <TodoGroupMenu handleClick={selectGroup}/>}
       </div>
-      {todoList ? <TodoGroup list={todoList} filter={selectedGroup} /* onUpdateTodos={handleUpdateTodos}*/ /> : <p>No Todos</p>}
+      {currList ? <TodoGroup list={currList} filter={selectedGroup} /> : <p>No Todos</p>}
     </>
   )
 }
