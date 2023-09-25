@@ -1,6 +1,7 @@
 import './App.css'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu';
+import EditForm from './components/EditForm'
 import { User } from './classes'
 import { useState, useEffect } from 'react'
 
@@ -72,6 +73,7 @@ function App() {
         {isMenuVisible && <TodoGroupMenu handleClick={selectGroup}/>}
       </div>
       {currList ? <TodoGroup list={currList} filter={selectedGroup} /> : <p>No Todos</p>}
+      <EditForm />
     </>
   )
 }

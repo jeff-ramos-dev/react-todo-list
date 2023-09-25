@@ -20,7 +20,10 @@ export default function TodoCard({ todo }: TodoCardProps) {
                 ${currCompleteStatus ? ' complete' : ''}`
             }
             key={todo.id}
-            onClick={() => {
+            onClick={(e) => {
+                const target = e.target as HTMLElement 
+                console.log(target);
+                if (!target.classList.contains('todoContainer')) return
                 todo.complete = !todo.complete
                 setCurrCompleteStatus(todo.complete);
             }}
