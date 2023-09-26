@@ -53,14 +53,12 @@ function App() {
   function handleDocumentClick(event: MouseEvent) {
     if (!event.target) return;
     const target = event.target as HTMLElement;
-    console.log('document click', target);
     if (!target.classList.contains('todoGroupMenu') && 
     !target.classList.contains('todoGroup')) {
       setIsGroupMenuVisible(false);
     }
     if (!target.classList.contains('listMenu') &&
     !target.classList.contains('listTitle')) {
-      console.log('setIsListMenuVisible(false)')
       setIsListMenuVisible(false);
     }
   }
@@ -90,7 +88,7 @@ function App() {
       setCurrList(newList);
     }
     console.log(user.listOfLists);
-  }, [user]);
+  }, [user, currList]);
 
   function ListMenu() {
     const menuOptions: string[] = [];
@@ -209,7 +207,7 @@ function App() {
         <label htmlFor="editTitle">Title</label>
         <input type="text" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
         <label htmlFor="editDescription">Description</label>
-        <input type="textarea" name="editDescription" className="editDescription" defaultValue={currTodo.description} />
+        <textarea name="editDescription" className="editDescription" defaultValue={currTodo.description} />
         <label htmlFor="editComplete">Complete?</label>
         <input type="checkbox" name="editComplete" className="editComplete" defaultChecked={currTodo.complete} />
         <label htmlFor="editUrgent">Urgent?</label>
@@ -243,6 +241,26 @@ function App() {
       </form>
     )
   }
+  
+  function addNewList() {
+    user.createTodoList(`list ${user.listOfLists.size + 1}`);
+    setUser(user);
+  }
+
+  function addNewTodo() {
+    setUser(prev => {
+      const newUser = {...prev} as User;
+
+      if (currList) {
+        const newList = newUser.listOfLists.get(currList.title);
+        if (newList) {
+          newList.createTodo();
+        }
+      }
+
+      return newUser
+    })
+  }
 
   return (
     <>
@@ -255,6 +273,8 @@ function App() {
       </div>
       {currList ? <TodoGroup /> : <p>No Todos</p>}
       {isEditMenuVisible && <EditForm todo={currTodo} />}
+      <button type="button" onClick={addNewTodo}>+</button>
+      <button type="button" onClick={addNewList}>Add List</button>
     </>
   )
 }
