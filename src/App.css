@@ -6,6 +6,9 @@
   --accent-color: #ed6e04;
   --todo-incomplete: #604f8f;
   --todo-complete: #545454;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
@@ -29,27 +32,37 @@ li {
   margin: 0.4rem 0;
 }
 
+.listTitle {
+  width: fit-content;
+  margin: 1rem;
+  padding: 0;
+}
+
 .todoGroupContainer {
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 30px;
+  margin: 0;
 }
 
 .todoGroup {
   cursor: pointer;
-  width: fit-content;
+  height: 30px;
+  margin: 0;
 }
 
 .todoGroupMenu {
   position: absolute;
-  top: 50px;;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
   width: 200px;
   height: 200px;
   padding-bottom: 20px;
   background-color: var(--todo-incomplete);
-  border: 2px solid var(--todo-complete);
+  border: 2px solid white;
   border-radius: 10px;
   font-weight: bold;
   z-index: 2;
@@ -59,7 +72,27 @@ li {
   align-items: center;
 }
 
-.todoGroupMenuOption, .todoGroupMenuOption:target {
+.listMenu {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: fit-content;
+  min-height: 100px;
+  padding-bottom: 20px;
+  background-color: var(--todo-incomplete);
+  border: 2px solid white;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoGroupMenuOption, .todoGroupMenuOption:target, .listMenuOption, .listMenuOption:target {
   background-color: transparent;
   border: none;
   outline: none;
@@ -67,19 +100,25 @@ li {
   padding: 0;
 }
 
-.todoGroupMenuOption:hover {
+.todoGroupMenuOption:hover, .listMenuOption:hover {
   color: var(--accent-color);
   cursor: pointer;
 }
 
 .todoContainer {
   display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
   justify-content: space-between;
-  margin-top: 2rem;
+  width: 90%;
+  margin-top: 1.7rem;
   padding: 1rem;
   border-radius: 10px;
   background-color: var(--todo-incomplete);
   cursor: pointer;
+}
+.todoContainer:nth-of-type(2) {
+  margin-top: 1rem;
 }
 
 .todoContainer:hover {
@@ -88,7 +127,7 @@ li {
 
 .todoRight {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding-left: 10px;
 }
@@ -106,6 +145,7 @@ li {
   font-size: 1rem;
   color: white;
   font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .todoDetail {
@@ -122,6 +162,11 @@ li {
 
 .complete {
   background-color: var(--todo-complete);
+}
+
+.strikethrough {
+  font-weight: normal;
+  letter-spacing: normal;
 }
 
 .edit {

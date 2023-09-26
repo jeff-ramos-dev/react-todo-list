@@ -18,7 +18,7 @@ class User {
     }
 
     createTodoList(title: string): void {
-        this.listOfLists.set(title, new TodoList(this));
+        this.listOfLists.set(title, new TodoList(this, title));
     }
 
     deleteTodoList(title: string): void {
