@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: Verdana, Arial, sans-serif;
 }
 
 
@@ -33,6 +34,10 @@ li {
   margin: 0.4rem 0;
 }
 
+.appTitle {
+  font-family:cursive;
+}
+
 .addBtn:hover {
   border-color: var(--secondary-color);
 }
@@ -41,6 +46,12 @@ li {
   width: fit-content;
   margin: 1rem;
   padding: 0;
+  cursor: pointer;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.listTitle:hover, .todoGroup:hover {
+  color: var(--secondary-color);
 }
 
 .todoGroupContainer {
@@ -56,7 +67,9 @@ li {
   cursor: pointer;
   height: 30px;
   margin: 0;
+  border-bottom: 2px solid var(--secondary-color);
 }
+
 
 .todoGroupMenu {
   position: absolute;
@@ -100,6 +113,7 @@ li {
 
 .listMenuOption {
   font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .listOptions {
@@ -159,7 +173,7 @@ li {
   font-size: 1rem;
   color: white;
   font-weight: bold;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .todoDetail {
@@ -215,10 +229,10 @@ li {
   padding-left: 10px;
 }
 
-.editForm > textarea {
-  width: 80%;
+.editDescription {
+  min-width: 80%;
   max-width: 80%;
-  min-height: 20px;
+  min-height: 80px;
   max-height: 200px;
   border-radius: 4px;
   padding: 4px;

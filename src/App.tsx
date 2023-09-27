@@ -279,7 +279,7 @@ function App() {
 
   return (
     <>
-      <h1>Lister</h1>
+      <h1 className="appTitle">2do</h1>
       {currList && <h2 className="listTitle" onClick={toggleListMenu}>{currList.title}</h2>}
       {isListMenuVisible && <ListMenu />}
       <div className="todoGroupContainer">
