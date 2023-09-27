@@ -58,7 +58,8 @@ function App() {
       setIsGroupMenuVisible(false);
     }
     if (!target.classList.contains('listMenu') &&
-    !target.classList.contains('listTitle')) {
+    !target.classList.contains('listTitle') &&
+    !target.classList.contains('addList')) {
       setIsListMenuVisible(false);
     }
   }
@@ -89,29 +90,6 @@ function App() {
     }
     console.log(user.listOfLists);
   }, [user, currList]);
-
-  function ListMenu() {
-    const menuOptions: string[] = [];
-
-    console.log(user.listOfLists);
-    user.listOfLists.forEach(list => {
-      menuOptions.push(list.title);
-    })
-
-    const optionMap = menuOptions.map(opt => {
-      return (
-        <li key={opt}><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
-      )
-    })
-
-    return (
-      <>
-        <ul className={"listMenu"}>
-          {optionMap}
-        </ul> 
-      </>
-    )
-  }
 
   function TodoGroup() {
     let todoArray: Todo[]
@@ -156,6 +134,30 @@ function App() {
           {optionMap}
         </ul> 
       </>
+    )
+  }
+
+  function ListMenu() {
+    const menuOptions: string[] = [];
+
+    console.log(user.listOfLists);
+    user.listOfLists.forEach(list => {
+      menuOptions.push(list.title);
+    })
+
+    const optionMap = menuOptions.map(opt => {
+      return (
+        <li key={opt}><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
+      )
+    })
+
+    return (
+      <div className="listMenu">
+        <ul className="listOptions">
+          {optionMap}
+        </ul> 
+        <button type="button" onClick={addNewList} className="addList addBtn">+</button>
+      </div>
     )
   }
 
@@ -243,13 +245,17 @@ function App() {
   }
   
   function addNewList() {
-    user.createTodoList(`list ${user.listOfLists.size + 1}`);
-    setUser(user);
+    setUser(prevUser => {
+      const newUser = new User(prevUser.name);
+      newUser.listOfLists = new Map(prevUser.listOfLists);
+      newUser.createTodoList(`list ${newUser.listOfLists.size + 1}`);
+      return newUser;
+    })
   }
 
   function addNewTodo() {
-    setUser(prev => {
-      const newUser = {...prev} as User;
+    setUser(prevUser => {
+      const newUser = {...prevUser} as User;
 
       if (currList) {
         const newList = newUser.listOfLists.get(currList.title);
@@ -273,8 +279,7 @@ function App() {
       </div>
       {currList ? <TodoGroup /> : <p>No Todos</p>}
       {isEditMenuVisible && <EditForm todo={currTodo} />}
-      <button type="button" onClick={addNewTodo}>+</button>
-      <button type="button" onClick={addNewList}>Add List</button>
+      <button type="button" onClick={addNewTodo} className="addTodo addBtn">+</button>
     </>
   )
 }
