@@ -17,7 +17,11 @@ function App() {
     }
     return newUser;
   });
-  const [currList, setCurrList] = useState(user.listOfLists.get(`${user.name}'s List`))
+  const [currList, setCurrList] = useState(() => {
+    let newList: TodoList | undefined = new TodoList(user, `${user.name}'s List`);
+    newList = user.listOfLists.get(newList.title);
+    return newList
+  });
   const [selectedGroup, setSelectedGroup] = useState("All Todos");
   const [isListMenuVisible, setIsListMenuVisible] = useState(false);
   const [isGroupMenuVisible, setIsGroupMenuVisible] = useState(false);
@@ -42,10 +46,13 @@ function App() {
   }
 
   function selectList(event: React.MouseEvent<HTMLButtonElement>) {
+    debugger;
     const target = event.target as HTMLButtonElement;
     if (target) {
       if (target.textContent) {
+        console.log(target.textContent, user.listOfLists);
         setCurrList(user.listOfLists.get(target.textContent));
+        setIsListMenuVisible(false);
       }
     }
   }
@@ -84,11 +91,13 @@ function App() {
 
   useEffect(() => {
     console.log('useEffect called');
-    const newList = user.listOfLists.get(`${user.name}'s List`);
-    if (newList) {
-      setCurrList(newList);
+    if (currList) {
+      const newList = user.listOfLists.get(currList.title);
+      if (newList) {
+        setCurrList(newList);
+      }
+      console.log(user.listOfLists);
     }
-    console.log(user.listOfLists);
   }, [user, currList]);
 
   function TodoGroup() {
@@ -248,7 +257,7 @@ function App() {
     setUser(prevUser => {
       const newUser = new User(prevUser.name);
       newUser.listOfLists = new Map(prevUser.listOfLists);
-      newUser.createTodoList(`list ${newUser.listOfLists.size + 1}`);
+      newUser.createTodoList(`List ${newUser.listOfLists.size + 1}`);
       return newUser;
     })
   }
