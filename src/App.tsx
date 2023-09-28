@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 function App() {
   console.log('render');
   const [user, setUser] = useState(() => {
-    const newUser = new User('Jeff');
+    const newUser = new User('Default');
     newUser.createTodoList(`${newUser.name}'s List`);
     const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
     if (newTodoList) {
@@ -28,12 +28,31 @@ function App() {
   const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
   const [currTodo, setCurrTodo] = useState(new Todo(null));
 
-  function toggleGroupMenu() {
-    setIsGroupMenuVisible(prev => !prev);
-  }
+  useEffect(() => {
+    console.log('initial useEffect called');
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('useEffect called');
+    if (currList) {
+      const newList = user.listOfLists.get(currList.title);
+      if (newList) {
+        setCurrList(newList);
+      }
+    }
+  }, [user, currList]);
 
   function toggleListMenu() {
     setIsListMenuVisible(prev => !prev)
+  }
+
+  function toggleGroupMenu() {
+    setIsGroupMenuVisible(prev => !prev);
   }
 
   function selectGroup(event: React.MouseEvent<HTMLButtonElement>) {
@@ -46,7 +65,6 @@ function App() {
   }
 
   function selectList(event: React.MouseEvent<HTMLButtonElement>) {
-    debugger;
     const target = event.target as HTMLButtonElement;
     if (target) {
       if (target.textContent) {
@@ -78,27 +96,6 @@ function App() {
     newUser.listOfLists.set(newList.title, newList);
     setUser(newUser);
   }
-
-
-  useEffect(() => {
-    console.log('initial useEffect called');
-    document.addEventListener('click', handleDocumentClick);
-
-    return () => {
-      document.removeEventListener('click', handleDocumentClick);
-    }
-  }, [])
-
-  useEffect(() => {
-    console.log('useEffect called');
-    if (currList) {
-      const newList = user.listOfLists.get(currList.title);
-      if (newList) {
-        setCurrList(newList);
-      }
-      console.log(user.listOfLists);
-    }
-  }, [user, currList]);
 
   function TodoGroup() {
     let todoArray: Todo[]
@@ -216,15 +213,15 @@ function App() {
     return (
       <form className="editForm">
         <label htmlFor="editTitle">Title</label>
-        <input type="text" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
+        <input type="text" id="editTitle" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
         <label htmlFor="editDescription">Description</label>
-        <textarea name="editDescription" className="editDescription" defaultValue={currTodo.description} />
+        <textarea id="editDescription" name="editDescription" className="editDescription" defaultValue={currTodo.description} />
         <label htmlFor="editComplete">Complete?</label>
-        <input type="checkbox" name="editComplete" className="editComplete" defaultChecked={currTodo.complete} />
+        <input type="checkbox" id="editComplete" name="editComplete" className="editComplete" defaultChecked={currTodo.complete} />
         <label htmlFor="editUrgent">Urgent?</label>
-        <input type="checkbox" name="editUrgent" className="editUrgent" defaultChecked={currTodo.urgent} />
+        <input type="checkbox" id="editUrgent" name="editUrgent" className="editUrgent" defaultChecked={currTodo.urgent} />
         <label htmlFor="editDueDate">Due Date</label>
-        <input type="date" name="editDueDate" className="editDueDate" defaultValue={currTodo.dueDate.toISOString().slice(0, 10)} />
+        <input type="date" name="editDueDate" id="editDueDate" className="editDueDate" defaultValue={currTodo.dueDate.toISOString().slice(0, 10)} />
         <div className="buttonContainer">
           <button type="button" className="submit" onClick={() => {
             console.log('submit');
@@ -272,7 +269,6 @@ function App() {
           newList.createTodo();
         }
       }
-
       return newUser
     })
   }
