@@ -4,12 +4,11 @@ import TodoCard from './Todo'
 interface TodoGroupProps {
     currList: TodoList
     selectedGroup: string
-    todo: Todo;
     setCurrTodo: React.Dispatch<React.SetStateAction<Todo>>;
     setIsEditMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function TodoGroup({currList, selectedGroup, todo, setCurrTodo, setIsEditMenuVisible}: TodoGroupProps) {
+export default function TodoGroup({currList, selectedGroup, setCurrTodo, setIsEditMenuVisible}: TodoGroupProps) {
     let todoArray: Todo[]
 
     if (!currList) return
@@ -33,6 +32,6 @@ export default function TodoGroup({currList, selectedGroup, todo, setCurrTodo, s
             todoArray = currList.getAllTodos()
     }
 
-    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={todo} setCurrTodo={setCurrTodo} setIsEditMenuVisible={setIsEditMenuVisible} />)
+    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsEditMenuVisible={setIsEditMenuVisible} />)
     return <>{cards}</>
   }

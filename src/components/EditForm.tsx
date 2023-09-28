@@ -1,12 +1,11 @@
 import { Todo } from '../classes'
 
 interface Props {
-    todo: Todo
     currTodo: Todo 
     updateTodo: Function
     setIsEditMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
-export default function EditForm({ todo, currTodo, updateTodo, setIsEditMenuVisible }: Props) {
+export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }: Props) {
     return (
       <form className="editForm">
         <label htmlFor="editTitle">Title</label>
@@ -33,8 +32,8 @@ export default function EditForm({ todo, currTodo, updateTodo, setIsEditMenuVisi
             updatedTodo.complete = editComplete.checked;
             updatedTodo.urgent = editUrgent.checked;
             updatedTodo.dueDate = new Date(editDueDate.value);
-            updatedTodo.parentList = todo.parentList;
-            updatedTodo.id = todo.id;
+            updatedTodo.parentList = currTodo.parentList;
+            updatedTodo.id = currTodo.id;
             updateTodo(updatedTodo);
             setIsEditMenuVisible(false);
           }}>SUBMIT</button>
