@@ -117,7 +117,7 @@ li {
 }
 
 .listOptions {
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 1rem;
 }
 
@@ -198,11 +198,11 @@ li {
   letter-spacing: normal;
 }
 
-.edit {
+.edit, .delete {
   width: 30px;
 }
 
-.edit:hover {
+.edit:hover, .delete:hover {
   filter:invert(100%);
 }
 

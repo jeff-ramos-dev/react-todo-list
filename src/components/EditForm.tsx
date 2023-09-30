@@ -9,15 +9,15 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
     return (
       <form className="editForm">
         <label htmlFor="editTitle">Title</label>
-        <input type="text" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
+        <input type="text" id="editTitle" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
         <label htmlFor="editDescription">Description</label>
-        <textarea name="editDescription" className="editDescription" defaultValue={currTodo.description} />
+        <textarea id="editDescription" name="editDescription" className="editDescription" defaultValue={currTodo.description} />
         <label htmlFor="editComplete">Complete?</label>
-        <input type="checkbox" name="editComplete" className="editComplete" defaultChecked={currTodo.complete} />
+        <input type="checkbox" id="editComplete" name="editComplete" className="editComplete" defaultChecked={currTodo.complete} />
         <label htmlFor="editUrgent">Urgent?</label>
-        <input type="checkbox" name="editUrgent" className="editUrgent" defaultChecked={currTodo.urgent} />
+        <input type="checkbox" id="editUrgent" name="editUrgent" className="editUrgent" defaultChecked={currTodo.urgent} />
         <label htmlFor="editDueDate">Due Date</label>
-        <input type="date" name="editDueDate" className="editDueDate" defaultValue={currTodo.dueDate.toISOString().slice(0, 10)} />
+        <input type="date" id="editDueDate" name="editDueDate" className="editDueDate" defaultValue={currTodo.dueDate.toISOString().slice(0, 10)} />
         <div className="buttonContainer">
           <button type="button" className="submit" onClick={() => {
             console.log('submit');
