@@ -6,9 +6,8 @@ import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
 
 function App() {
-  console.log('render');
   const [user, setUser] = useState(() => {
-    const newUser = new User('Default');
+    const newUser = new User('User');
     newUser.createTodoList(`${newUser.name}'s List`);
     const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
     if (newTodoList) {
@@ -31,7 +30,6 @@ function App() {
   const [currTodo, setCurrTodo] = useState(new Todo(null));
 
   useEffect(() => {
-    console.log('initial useEffect called');
     document.addEventListener('click', handleDocumentClick);
 
     return () => {
@@ -40,7 +38,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log('useEffect called');
     if (currList) {
       const newList = user.listOfLists.get(currList.title);
       if (newList) {
@@ -91,17 +88,26 @@ function App() {
   }
 
   function updateTodo(updatedTodo: Todo) {
-    const newList = currList as TodoList;
-    newList.todos.set(updatedTodo.id, updatedTodo);
-    const newUser = user;
-    newUser.listOfLists.set(newList.title, newList);
-    setUser(newUser);
+    setUser(prevUser => {
+      const newUser = new User(prevUser.name);
+      prevUser.listOfLists.forEach((list, title) => {
+        const newList = new TodoList(newUser, title);
+        list.todos.forEach((todo) => {
+          if (todo.id === updatedTodo.id) {
+            newList.todos.set(todo.id, updatedTodo);
+          } else {
+            (newList.todos.set(todo.id, todo))
+          }
+        })
+        newUser.listOfLists.set(title, newList);
+      })
+      return newUser;
+    })
   }
 
   function ListMenu() {
     const menuOptions: string[] = [];
 
-    console.log(user.listOfLists);
     user.listOfLists.forEach(list => {
       menuOptions.push(list.title);
     })
@@ -145,6 +151,22 @@ function App() {
     })
   }
 
+  function deleteTodo(todoId: string) {
+    setUser(prevUser => {
+      const newUser = new User(prevUser.name);
+      prevUser.listOfLists.forEach((list, title) => {
+        const newList = new TodoList(newUser, title);
+        list.todos.forEach((todo, id) => {
+          if (id !== todoId) {
+            newList.todos.set(id, todo);
+          }
+        })
+        newUser.listOfLists.set(title, newList);
+      })
+      return newUser;
+    })
+  }
+
   return (
     <>
       <h1 className="appTitle">2do</h1>
@@ -160,6 +182,8 @@ function App() {
           selectedGroup={selectedGroup} 
           setCurrTodo={setCurrTodo} 
           setIsEditMenuVisible={setIsEditMenuVisible} 
+          deleteTodo={deleteTodo}
+          updateTodo={updateTodo}
         /> : 
         <p>No Todos</p>}
       {isEditMenuVisible && <EditForm currTodo={currTodo} updateTodo={updateTodo} setIsEditMenuVisible={setIsEditMenuVisible}/>}

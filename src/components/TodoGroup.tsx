@@ -6,9 +6,11 @@ interface TodoGroupProps {
     selectedGroup: string
     setCurrTodo: React.Dispatch<React.SetStateAction<Todo>>;
     setIsEditMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
+    deleteTodo: Function
+    updateTodo: Function
 }
 
-export default function TodoGroup({currList, selectedGroup, setCurrTodo, setIsEditMenuVisible}: TodoGroupProps) {
+export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsEditMenuVisible, deleteTodo, updateTodo }: TodoGroupProps) {
     let todoArray: Todo[]
 
     if (!currList) return
@@ -32,6 +34,6 @@ export default function TodoGroup({currList, selectedGroup, setCurrTodo, setIsEd
             todoArray = currList.getAllTodos()
     }
 
-    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsEditMenuVisible={setIsEditMenuVisible} />)
+    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsEditMenuVisible={setIsEditMenuVisible} deleteTodo={deleteTodo} updateTodo={updateTodo}/>)
     return <>{cards}</>
   }
