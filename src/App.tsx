@@ -6,8 +6,43 @@ import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
 
 function App() {
+  const fakeUser: User = new User({name: 'Bard'});
+  fakeUser.createTodoList('Fake List');
+  fakeUser.createTodoList('Fake List 2');
+  const fakeList: TodoList | undefined = fakeUser.listOfLists.get('Fake List');
+  const fakeList2: TodoList | undefined = fakeUser.listOfLists.get('Fake List 2');
+  if (!fakeList || !fakeList2) return
+  const task1: Todo = fakeList.createTodo("Fake Title");
+  task1.updateDescription('Fake Description');
+  const task2: Todo = fakeList.createTodo("Fake Title 2");
+  task2.updateDescription('Fake Description 2');
+  const task3: Todo = fakeList.createTodo("Fake Title A");
+  task3.updateDescription('Fake Description A');
+  const task4: Todo = fakeList.createTodo("Fake Title B");
+  task4.updateDescription('Fake Description B');
+  const userJSON = JSON.stringify({
+    name: fakeUser.name,
+    listOfLists: {
+      title: fakeList.title,
+      todos: Array.from(fakeList.todos.values()).map((todo) => {
+        return {
+          id: todo.id,
+          title: todo.title,
+          description: todo.description,
+          dueDate: todo.dueDate,
+          complete: todo.complete,
+          urgent: todo.urgent,
+          parentList: todo.parentList ? todo.parentList.title : null
+        }
+      })
+    }
+  });
+  const parsedUser = new User(JSON.parse(userJSON));
+  console.log(parsedUser);
+  const jsonObject = <p>{userJSON}</p>;
+
   const [user, setUser] = useState(() => {
-    const newUser = new User('User');
+    const newUser = new User({name: 'User'});
     newUser.createTodoList(`${newUser.name}'s List`);
     const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
     if (newTodoList) {
@@ -19,7 +54,7 @@ function App() {
     return newUser;
   });
   const [currList, setCurrList] = useState(() => {
-    let newList: TodoList | undefined = new TodoList(user, `${user.name}'s List`);
+    let newList: TodoList | undefined = new TodoList({user: user, title: `${user.name}'s List`});
     newList = user.listOfLists.get(newList.title);
     return newList
   });
@@ -27,7 +62,7 @@ function App() {
   const [isListMenuVisible, setIsListMenuVisible] = useState(false);
   const [isGroupMenuVisible, setIsGroupMenuVisible] = useState(false);
   const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
-  const [currTodo, setCurrTodo] = useState(new Todo(null));
+  const [currTodo, setCurrTodo] = useState(new Todo({parentList: currList ? currList : null}));
 
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);
@@ -89,9 +124,9 @@ function App() {
 
   function updateTodo(updatedTodo: Todo) {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       prevUser.listOfLists.forEach((list, title) => {
-        const newList = new TodoList(newUser, title);
+        const newList = new TodoList({user: newUser, title: title});
         list.todos.forEach((todo) => {
           if (todo.id === updatedTodo.id) {
             newList.todos.set(todo.id, updatedTodo);
@@ -130,7 +165,7 @@ function App() {
   
   function addNewList() {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
       newUser.createTodoList(`List ${newUser.listOfLists.size + 1}`);
       return newUser;
@@ -153,9 +188,9 @@ function App() {
 
   function deleteTodo(todoId: string) {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       prevUser.listOfLists.forEach((list, title) => {
-        const newList = new TodoList(newUser, title);
+        const newList = new TodoList({user: newUser, title: title});
         list.todos.forEach((todo, id) => {
           if (id !== todoId) {
             newList.todos.set(id, todo);
@@ -188,8 +223,9 @@ function App() {
         <p>No Todos</p>}
       {isEditMenuVisible && <EditForm currTodo={currTodo} updateTodo={updateTodo} setIsEditMenuVisible={setIsEditMenuVisible}/>}
       <button type="button" onClick={addNewTodo} className="addTodo addBtn">+</button>
+      {jsonObject ? jsonObject : null}
     </>
   )
 }
 
-export default App
+export default App;
