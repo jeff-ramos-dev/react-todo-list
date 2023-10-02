@@ -123,7 +123,7 @@ function App() {
 
     const optionMap = menuOptions.map(opt => {
       return (
-        <li key={opt}><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
+        <li key={opt} className="listOptionContainer"><button className='deleteList' onClick={() => deleteList(opt)} >X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
       )
     })
 
@@ -138,6 +138,7 @@ function App() {
   }
   
   function addNewList() {
+    console.log('adding list')
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
@@ -171,6 +172,22 @@ function App() {
           }
         })
         newUser.listOfLists.set(title, newList);
+      })
+      return newUser;
+    })
+  }
+
+  function deleteList(listTitle: string) {
+    setUser(prevUser => {
+      const newUser = new User({name: prevUser.name});
+      prevUser.listOfLists.forEach((list, title) => {
+        if (title !== listTitle) {
+          const newList = new TodoList({user: newUser, title: title});
+          list.todos.forEach((todo, id) => {
+              newList.todos.set(id, todo);
+          })
+          newUser.listOfLists.set(title, newList);
+        }
       })
       return newUser;
     })
