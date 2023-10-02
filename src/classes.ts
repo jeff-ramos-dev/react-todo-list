@@ -8,17 +8,22 @@ function compareDates(todo1: Todo, todo2: Todo) {
     return isAfter(todo1.dueDate, todo2.dueDate) ? 1 : -1;
 }
 
+interface UserTypes {
+    name: string,
+    listOfLists?: Map<string, TodoList>
+}
+
 class User {
     name: string;
     listOfLists: Map<string, TodoList>;
 
-    constructor(name="New User") {
+    constructor({name="User", listOfLists=new Map()}: UserTypes) {
             this.name = name;
-            this.listOfLists = new Map();
+            this.listOfLists = listOfLists;
     }
 
     createTodoList(title: string): void {
-        this.listOfLists.set(title, new TodoList(this, title));
+        this.listOfLists.set(title, new TodoList({title: title, todos: new Map(), user: this}));
     }
 
     deleteTodoList(title: string): void {
@@ -26,19 +31,32 @@ class User {
     }
 }
 
+interface TodoListTypes {
+    title: string,
+    todos?: Map<string, Todo>,
+    user: User
+}
 class TodoList {
     title: string;
     todos: Map<string, Todo>; 
     user: User;
 
-    constructor(user: User, title: string="New Todo List") {
+    constructor({title="New Todo List", todos=new Map(), user }: TodoListTypes) {
         this.title = title;
-        this.todos = new Map(); 
+        this.todos = todos; 
         this.user = user;
     }
 
     createTodo(title?: string): Todo {
-        const newTodo = new Todo(this, title);
+        const newTodo = new Todo({
+            id: uuidv4(), 
+            title: title ? title : "New Todo", 
+            description: "", 
+            dueDate: new Date(), 
+            urgent: false, 
+            complete: false, 
+            parentList: this.title
+        });
         this.todos.set(newTodo.id, newTodo);
         return newTodo;
     }
@@ -123,6 +141,16 @@ class TodoList {
 
 }
 
+interface TodoTypes {
+    id?: string;
+    title?: string;
+    description?: string;
+    dueDate?: Date;
+    urgent?: boolean;
+    complete?: boolean;
+    parentList: string | null;
+}
+
 class Todo {
     id: string;
     title: string;
@@ -130,16 +158,24 @@ class Todo {
     dueDate: Date;
     urgent: boolean;
     complete: boolean;
-    parentList: TodoList | null;
+    parentList: string | null;
 
-    constructor(parent: TodoList | null, title: string = "New Todo") {
-        this.id = uuidv4();
+    constructor({
+        id=uuidv4(), 
+        title= "New Todo", 
+        description="New Description", 
+        dueDate=new Date(), 
+        urgent=false, 
+        complete=false, 
+        parentList
+    }: TodoTypes) {
+        this.id = id;
         this.title = title;
-        this.description = "";
-        this.dueDate = new Date();
-        this.urgent = false;
-        this.complete = false;
-        this.parentList = parent;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.urgent = urgent;
+        this.complete = complete;
+        this.parentList = parentList;
     }
 
     updateTitle(newTitle: string): void {
@@ -162,7 +198,7 @@ class Todo {
         this.complete = !this.complete;
     }
 
-    setParent(newParent: TodoList): void {
+    setParent(newParent: string): void {
         this.parentList = newParent;
     }
 }

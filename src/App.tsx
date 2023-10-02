@@ -4,22 +4,30 @@ import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
+import { saveToLocalStorage, loadFromLocalStorage } from './utils'
 
 function App() {
   const [user, setUser] = useState(() => {
-    const newUser = new User('User');
-    newUser.createTodoList(`${newUser.name}'s List`);
-    const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
-    if (newTodoList) {
-      newTodoList.createTodo("Groceries").urgent = true;
-      newTodoList.createTodo("Send Email").urgent = true;
-      newTodoList.createTodo("Take Out Trash").complete = true;
-      newTodoList.createTodo("Super long title that nobody should be trying to write here").complete = true;
-    }
-    return newUser;
+    if (localStorage.getItem('user')) {
+      console.log('user found')
+      const savedUser = new User(JSON.parse(localStorage.getItem('user') as string));
+      return loadFromLocalStorage(savedUser);
+    } else {
+      const newUser = new User({name: 'User'});
+      newUser.createTodoList(`${newUser.name}'s List`);
+      const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
+      if (newTodoList) {
+        newTodoList.createTodo("Groceries").urgent = true;
+        newTodoList.createTodo("Send Email").urgent = true;
+        newTodoList.createTodo("Take Out Trash").complete = true;
+        newTodoList.createTodo("Super long title that nobody should be trying to write here").complete = true;
+      }
+      saveToLocalStorage(newUser);
+      return newUser;
+    } 
   });
   const [currList, setCurrList] = useState(() => {
-    let newList: TodoList | undefined = new TodoList(user, `${user.name}'s List`);
+    let newList: TodoList | undefined = new TodoList({user: user, title: `${user.name}'s List`});
     newList = user.listOfLists.get(newList.title);
     return newList
   });
@@ -27,7 +35,7 @@ function App() {
   const [isListMenuVisible, setIsListMenuVisible] = useState(false);
   const [isGroupMenuVisible, setIsGroupMenuVisible] = useState(false);
   const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
-  const [currTodo, setCurrTodo] = useState(new Todo(null));
+  const [currTodo, setCurrTodo] = useState(new Todo({parentList: currList ? currList.title : null}));
 
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);
@@ -44,6 +52,7 @@ function App() {
         setCurrList(newList);
       }
     }
+    saveToLocalStorage(user);
   }, [user, currList]);
 
   function toggleListMenu() {
@@ -89,9 +98,9 @@ function App() {
 
   function updateTodo(updatedTodo: Todo) {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       prevUser.listOfLists.forEach((list, title) => {
-        const newList = new TodoList(newUser, title);
+        const newList = new TodoList({user: newUser, title: title});
         list.todos.forEach((todo) => {
           if (todo.id === updatedTodo.id) {
             newList.todos.set(todo.id, updatedTodo);
@@ -130,7 +139,7 @@ function App() {
   
   function addNewList() {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
       newUser.createTodoList(`List ${newUser.listOfLists.size + 1}`);
       return newUser;
@@ -153,9 +162,9 @@ function App() {
 
   function deleteTodo(todoId: string) {
     setUser(prevUser => {
-      const newUser = new User(prevUser.name);
+      const newUser = new User({name: prevUser.name});
       prevUser.listOfLists.forEach((list, title) => {
-        const newList = new TodoList(newUser, title);
+        const newList = new TodoList({user: newUser, title: title});
         list.todos.forEach((todo, id) => {
           if (id !== todoId) {
             newList.todos.set(id, todo);
@@ -192,4 +201,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
