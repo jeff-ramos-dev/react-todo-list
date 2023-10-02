@@ -1,7 +1,6 @@
 import { Todo } from '../classes'
 import editImg from '../assets/editImg.png'
 import trashImg from '../assets/small-trash-icon.png'
-import { useState } from 'react'
 
 interface TodoCardProps {
     todo: Todo;
@@ -12,7 +11,18 @@ interface TodoCardProps {
 }
 
 export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, deleteTodo, updateTodo }: TodoCardProps ) {
-    const [currDate, setCurrDate] = useState(todo.dueDate);
+
+    function getUpdatedTodo() {
+        const updatedTodo = new Todo({parentList: null})
+        updatedTodo.title = todo.title
+        updatedTodo.description = todo.description;
+        updatedTodo.complete = todo.complete;
+        updatedTodo.urgent = todo.urgent;
+        updatedTodo.dueDate = todo.dueDate;
+        updatedTodo.parentList = todo.parentList;
+        updatedTodo.id = todo.id;
+        return updatedTodo
+    }
 
     return (
         <div 
@@ -42,12 +52,13 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, dele
                 <input
                     type="date" 
                     className="picker"
-                    value={currDate.toISOString().slice(0,10)}
+                    value={todo.dueDate.toISOString().slice(0,10)}
                     onChange={(e) => {
-                        const target = e.target as HTMLInputElement
-                        const value = target.value
-                        todo.updateDueDate(new Date(value));
-                        setCurrDate(new Date(value));
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value;
+                        const updatedTodo = getUpdatedTodo();
+                        updatedTodo.dueDate = new Date(value);
+                        updateTodo(updatedTodo);
                 }}
                 />
                 <img src={editImg} className="edit" onClick={() => {

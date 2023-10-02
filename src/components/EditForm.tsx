@@ -12,7 +12,6 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
   function getUpdatedTodo() {
     const editTitle = document.querySelector('.editTitle') as HTMLInputElement
     const editDescription = document.querySelector('.editDescription') as HTMLInputElement;
-    const editDueDate = document.querySelector('.editDueDate') as HTMLInputElement;
     const editComplete = document.querySelector('.editComplete') as HTMLInputElement;
     const editUrgent = document.querySelector('.editUrgent') as HTMLInputElement;
     const updatedTodo = new Todo({parentList: null});
@@ -20,7 +19,7 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
     updatedTodo.updateDescription(editDescription.value);
     updatedTodo.complete = editComplete.checked;
     updatedTodo.urgent = editUrgent.checked;
-    updatedTodo.dueDate = new Date(editDueDate.value);
+    updatedTodo.dueDate = new Date(currDateString);
     updatedTodo.parentList = currTodo.parentList;
     updatedTodo.id = currTodo.id;
     return updatedTodo;
@@ -42,10 +41,11 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
           id="editDueDate" 
           name="editDueDate" 
           className="editDueDate" 
-          onChange={() => {
+          onChange={(e) => {
             const updatedTodo = getUpdatedTodo();
             updateTodo(updatedTodo)
-            setCurrDateString(updatedTodo.dueDate.toISOString().slice(0, 10));
+            const newDate = new Date(e.target.value)
+            setCurrDateString(newDate.toISOString().slice(0, 10));
           }}
           value={currDateString}
         />
