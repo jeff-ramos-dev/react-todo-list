@@ -55,7 +55,7 @@ class TodoList {
             dueDate: new Date(), 
             urgent: false, 
             complete: false, 
-            parentList: this
+            parentList: this.title
         });
         this.todos.set(newTodo.id, newTodo);
         return newTodo;
@@ -148,7 +148,7 @@ interface TodoTypes {
     dueDate?: Date;
     urgent?: boolean;
     complete?: boolean;
-    parentList: TodoList | null;
+    parentList: string | null;
 }
 
 class Todo {
@@ -158,7 +158,7 @@ class Todo {
     dueDate: Date;
     urgent: boolean;
     complete: boolean;
-    parentList: TodoList | null;
+    parentList: string | null;
 
     constructor({
         id=uuidv4(), 
@@ -198,7 +198,7 @@ class Todo {
         this.complete = !this.complete;
     }
 
-    setParent(newParent: TodoList): void {
+    setParent(newParent: string): void {
         this.parentList = newParent;
     }
 }

@@ -22,8 +22,12 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, dele
                 ${todo.complete ? ' complete' : ''}`
             }
             key={todo.id}
-            onClick={() => {
-                const updatedTodo = new Todo(null);
+            onClick={(e) => {
+                const target = e.target as HTMLDivElement
+                if (target.classList.contains('picker') || target.classList.contains('edit') || target.classList.contains('delete')) {
+                    return;
+                }
+                const updatedTodo = new Todo({parentList: null});
                 updatedTodo.title = todo.title;
                 updatedTodo.description = todo.description;
                 updatedTodo.complete = !todo.complete;
