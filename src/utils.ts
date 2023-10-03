@@ -49,7 +49,7 @@ function loadFromLocalStorage(savedUser: any): User {
   return savedUser;   
 }
 
-function generateNewListName(listOfLists: Map<string, TodoList>) {
+function generateNewListName(listOfLists: Map<string, TodoList>): string {
   let listNum = 1;
   let newListTitle = `Untitled List ${listNum}`
   let unique;
