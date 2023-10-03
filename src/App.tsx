@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
-import { saveToLocalStorage, loadFromLocalStorage } from './utils'
+import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -137,28 +137,7 @@ function App() {
     )
   }
 
-  function generateNewListName(listOfLists: Map<string, TodoList>) {
-    let listNum = 1;
-    let newListTitle = `Untitled List ${listNum}`
-    let unique;
-    let allTitlesChecked = false;
-    while (!allTitlesChecked) {
-      unique = true;
-      console.log('starting to check lists');
-      for (const [listTitle, list] of listOfLists) {
-        if (listTitle === newListTitle) {
-          unique = false;
-          listNum++
-          newListTitle = `Untitled List ${listNum}`;
-          break;
-        }
-      }
-      if (unique) {
-        allTitlesChecked = true;
-      }
-    }
-    return newListTitle;
-  }
+
   
   function addNewList() {
     console.log('adding list')
