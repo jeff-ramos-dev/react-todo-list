@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
+import Confirm from './components/Confirm'
 import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
@@ -35,7 +36,9 @@ function App() {
   const [isListMenuVisible, setIsListMenuVisible] = useState(false);
   const [isGroupMenuVisible, setIsGroupMenuVisible] = useState(false);
   const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [currTodo, setCurrTodo] = useState(new Todo({parentList: currList ? currList.title : null}));
+  const [toBeDeleted, setToBeDeleted] = useState<String | null>(null);
 
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);
@@ -92,7 +95,11 @@ function App() {
     if (!target.classList.contains('listMenu') &&
     !target.classList.contains('listTitle') &&
     !target.classList.contains('addList') &&
-    !target.classList.contains('deleteList')) {
+    !target.classList.contains('deleteList') &&
+    !target.classList.contains('overlay') &&
+    !target.classList.contains('confirm') &&
+    !target.classList.contains('confirmMessage') &&
+    !target.classList.contains('buttonContainer')) {
       setIsListMenuVisible(false);
     }
   }
@@ -115,6 +122,18 @@ function App() {
     })
   }
 
+  function confirmDelete(response: boolean, listTitle: string) {
+    if (response) {
+      console.log('Yes');
+      console.log('Delete', listTitle)
+      deleteList(listTitle);
+    } else {
+      console.log('No');
+      console.log("Don't Delete", listTitle)
+      setToBeDeleted(null);
+    }
+  }
+
   function ListMenu() {
     const menuOptions: string[] = [];
 
@@ -124,7 +143,13 @@ function App() {
 
     const optionMap = menuOptions.map(opt => {
       return (
-        <li key={opt} className="listOptionContainer"><button className='deleteList' onClick={() => deleteList(opt)} >X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
+        <li key={opt} className="listOptionContainer">
+          <button 
+            className='deleteList' 
+            onClick={() => {
+              setIsConfirmVisible(true);
+              setToBeDeleted(opt)
+            }}>X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
       )
     })
 
@@ -138,8 +163,6 @@ function App() {
     )
   }
 
-
-  
   function addNewList() {
     console.log('adding list')
     setUser(prevUser => {
@@ -217,6 +240,7 @@ function App() {
         <p>No Todos</p>}
       {isEditMenuVisible && <EditForm currTodo={currTodo} updateTodo={updateTodo} setIsEditMenuVisible={setIsEditMenuVisible}/>}
       <button type="button" onClick={addNewTodo} className="addTodo addBtn">+</button>
+      {isConfirmVisible && <Confirm confirmDelete={confirmDelete} listTitle={toBeDeleted} setIsConfirmVisible={setIsConfirmVisible}/>}
     </>
   )
 }
