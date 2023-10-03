@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
-import { saveToLocalStorage, loadFromLocalStorage } from './utils'
+import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -91,7 +91,8 @@ function App() {
     }
     if (!target.classList.contains('listMenu') &&
     !target.classList.contains('listTitle') &&
-    !target.classList.contains('addList')) {
+    !target.classList.contains('addList') &&
+    !target.classList.contains('deleteList')) {
       setIsListMenuVisible(false);
     }
   }
@@ -123,7 +124,7 @@ function App() {
 
     const optionMap = menuOptions.map(opt => {
       return (
-        <li key={opt}><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
+        <li key={opt} className="listOptionContainer"><button className='deleteList' onClick={() => deleteList(opt)} >X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
       )
     })
 
@@ -136,12 +137,15 @@ function App() {
       </div>
     )
   }
+
+
   
   function addNewList() {
+    console.log('adding list')
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
-      newUser.createTodoList(`List ${newUser.listOfLists.size + 1}`);
+      newUser.createTodoList(generateNewListName(newUser.listOfLists));
       return newUser;
     })
   }
@@ -171,6 +175,22 @@ function App() {
           }
         })
         newUser.listOfLists.set(title, newList);
+      })
+      return newUser;
+    })
+  }
+
+  function deleteList(listTitle: string) {
+    setUser(prevUser => {
+      const newUser = new User({name: prevUser.name});
+      prevUser.listOfLists.forEach((list, title) => {
+        if (title !== listTitle) {
+          const newList = new TodoList({user: newUser, title: title});
+          list.todos.forEach((todo, id) => {
+              newList.todos.set(id, todo);
+          })
+          newUser.listOfLists.set(title, newList);
+        }
       })
       return newUser;
     })

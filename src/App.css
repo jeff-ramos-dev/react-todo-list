@@ -111,14 +111,16 @@ li {
   align-items: center;
 }
 
-.listMenuOption {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
+
 
 .listOptions {
   overflow-y: auto;
   padding: 1rem;
+}
+
+.listOptionContainer {
+  display: flex;
+  align-items: center;
 }
 
 .todoGroupMenuOption, .todoGroupMenuOption:target, .listMenuOption, .listMenuOption:target {
@@ -127,6 +129,13 @@ li {
   outline: none;
   margin: 0;
   padding: 0;
+}
+
+.listMenuOption {
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-self: end;
+  flex-grow: 1;
 }
 
 .todoGroupMenuOption:hover, .listMenuOption:hover {
@@ -198,12 +207,17 @@ li {
   letter-spacing: normal;
 }
 
-.edit, .delete {
+.edit, .delete, .deleteList {
   width: 30px;
 }
 
-.edit:hover, .delete:hover {
+.edit:hover, .delete:hover, .deleteList:hover {
   filter:invert(100%);
+}
+
+.deleteList {
+  margin-right: 10px;
+  justify-self: start;
 }
 
 .editForm {
