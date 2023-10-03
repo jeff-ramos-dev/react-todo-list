@@ -91,7 +91,8 @@ function App() {
     }
     if (!target.classList.contains('listMenu') &&
     !target.classList.contains('listTitle') &&
-    !target.classList.contains('addList')) {
+    !target.classList.contains('addList') &&
+    !target.classList.contains('deleteList')) {
       setIsListMenuVisible(false);
     }
   }
