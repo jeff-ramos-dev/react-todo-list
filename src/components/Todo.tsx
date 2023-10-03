@@ -1,4 +1,5 @@
-import { Todo } from '../classes'
+import { Todo, DeleteTypes } from '../classes'
+import { formatDate } from '../utils'
 import editImg from '../assets/editImg.png'
 import trashImg from '../assets/small-trash-icon.png'
 
@@ -6,11 +7,12 @@ interface TodoCardProps {
     todo: Todo;
     setCurrTodo: React.Dispatch<React.SetStateAction<Todo>>;
     setIsEditMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
-    deleteTodo: Function
+    setIsConfirmVisible: React.Dispatch<React.SetStateAction<boolean>>
+    setToBeDeleted: React.Dispatch<React.SetStateAction<DeleteTypes | null>>
     updateTodo: Function
 }
 
-export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, deleteTodo, updateTodo }: TodoCardProps ) {
+export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, setIsConfirmVisible, setToBeDeleted, updateTodo }: TodoCardProps ) {
 
     function getUpdatedTodo() {
         const updatedTodo = new Todo({parentList: null})
@@ -52,7 +54,7 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, dele
                 <input
                     type="date" 
                     className="picker"
-                    value={todo.dueDate.toISOString().slice(0,10)}
+                    value={formatDate(todo.dueDate)}
                     onChange={(e) => {
                         const target = e.target as HTMLInputElement;
                         const value = target.value;
@@ -66,7 +68,8 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, dele
                     setIsEditMenuVisible(true);
                 }}></img>
                 <img src={trashImg} className="delete" onClick={() => {
-                    deleteTodo(todo.id);
+                    setIsConfirmVisible(true);
+                    setToBeDeleted({item: todo.id, type: "todo", title: todo.title});
                 }}></img>
             </div>
                 {todo.complete ? <del className="todoTitle strikethrough">{todo.title}</del> : <p className="todoTitle">{todo.title}</p> }

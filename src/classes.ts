@@ -8,6 +8,12 @@ function compareDates(todo1: Todo, todo2: Todo) {
     return isAfter(todo1.dueDate, todo2.dueDate) ? 1 : -1;
 }
 
+interface DeleteTypes {
+    type: string
+    item: string
+    title: string
+}
+
 interface UserTypes {
     name: string,
     listOfLists?: Map<string, TodoList>
@@ -206,5 +212,9 @@ class Todo {
 export {
     User,
     TodoList,
-    Todo
-};
+    Todo,
+}
+
+export type {
+    DeleteTypes,
+}
