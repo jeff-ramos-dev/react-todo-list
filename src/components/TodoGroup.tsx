@@ -36,5 +36,5 @@ export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsE
     }
 
     const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsConfirmVisible={setIsConfirmVisible} setIsEditMenuVisible={setIsEditMenuVisible} setToBeDeleted={setToBeDeleted} updateTodo={updateTodo}/>)
-    return <>{cards}</>
+    return <>{cards.length ? cards : <p>No Todos</p>}</>
   }

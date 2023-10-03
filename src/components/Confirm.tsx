@@ -11,7 +11,7 @@ export default function Confirm({ confirmDelete, itemToDelete, setIsConfirmVisib
             <div className="overlay">
             </div>
             <div className="confirm">
-                <h3 className="confirmMessage">Delete {itemToDelete ? itemToDelete.item : ''}?</h3>
+                <h3 className="confirmMessage">Delete '{<span className="confirmItem">{itemToDelete && itemToDelete.title}</span>}'?</h3>
                 <div className="buttonContainer">
                     <button onClick={() => {
                         setIsConfirmVisible(false);

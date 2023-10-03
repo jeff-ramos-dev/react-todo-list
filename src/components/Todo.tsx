@@ -69,7 +69,7 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, setI
                 }}></img>
                 <img src={trashImg} className="delete" onClick={() => {
                     setIsConfirmVisible(true);
-                    setToBeDeleted({item: todo.id, type: "todo"});
+                    setToBeDeleted({item: todo.id, type: "todo", title: todo.title});
                 }}></img>
             </div>
                 {todo.complete ? <del className="todoTitle strikethrough">{todo.title}</del> : <p className="todoTitle">{todo.title}</p> }

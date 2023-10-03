@@ -11,6 +11,7 @@ function compareDates(todo1: Todo, todo2: Todo) {
 interface DeleteTypes {
     type: string
     item: string
+    title: string
 }
 
 interface UserTypes {

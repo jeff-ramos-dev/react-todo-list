@@ -149,7 +149,7 @@ function App() {
             className='deleteList' 
             onClick={() => {
               setIsConfirmVisible(true);
-              setToBeDeleted({item: opt, type: 'list'})
+              setToBeDeleted({item: opt, type: 'list', title: opt})
             }}>X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
       )
     })
@@ -229,7 +229,7 @@ function App() {
         <h3 onClick={toggleGroupMenu} className="todoGroup">{selectedGroup}</h3>
         {isGroupMenuVisible && <TodoGroupMenu handleClick={selectGroup}/>}
       </div>
-      {currList ? 
+      {currList && 
         <TodoGroup 
           currList={currList} 
           selectedGroup={selectedGroup} 
@@ -238,11 +238,24 @@ function App() {
           setIsConfirmVisible={setIsConfirmVisible}
           setToBeDeleted={setToBeDeleted}
           updateTodo={updateTodo}
-        /> : 
-        <p>No Todos</p>}
-      {isEditMenuVisible && <EditForm currTodo={currTodo} updateTodo={updateTodo} setIsEditMenuVisible={setIsEditMenuVisible}/>}
-      <button type="button" onClick={addNewTodo} className="addTodo addBtn">+</button>
-      {isConfirmVisible && <Confirm confirmDelete={confirmDelete} itemToDelete={toBeDeleted} setIsConfirmVisible={setIsConfirmVisible} />}
+        />}
+      {isEditMenuVisible &&
+        <EditForm 
+          currTodo={currTodo} 
+          updateTodo={updateTodo} 
+          setIsEditMenuVisible={setIsEditMenuVisible}
+        />}
+      <button 
+        type="button" 
+        onClick={addNewTodo} 
+        className="addTodo addBtn"
+      >+</button>
+      {isConfirmVisible &&
+        <Confirm 
+          confirmDelete={confirmDelete} 
+          itemToDelete={toBeDeleted} 
+          setIsConfirmVisible={setIsConfirmVisible} 
+        />}
     </>
   )
 }
