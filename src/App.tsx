@@ -1,5 +1,5 @@
 import './App.css'
-import { User, TodoList, Todo } from './classes'
+import { User, TodoList, Todo, DeleteTypes } from './classes'
 import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
@@ -38,7 +38,7 @@ function App() {
   const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [currTodo, setCurrTodo] = useState(new Todo({parentList: currList ? currList.title : null}));
-  const [toBeDeleted, setToBeDeleted] = useState<String | null>(null);
+  const [toBeDeleted, setToBeDeleted] = useState<DeleteTypes | null>(null);
 
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);
@@ -122,16 +122,17 @@ function App() {
     })
   }
 
-  function confirmDelete(response: boolean, listTitle: string) {
+  function confirmDelete(response: boolean, itemToDelete: DeleteTypes) {
+
     if (response) {
       console.log('Yes');
-      console.log('Delete', listTitle)
-      deleteList(listTitle);
+      console.log('Delete', itemToDelete.type, itemToDelete.item)
+      itemToDelete.type === 'list' ? deleteList(itemToDelete.item) : deleteTodo(itemToDelete.item);
     } else {
       console.log('No');
-      console.log("Don't Delete", listTitle)
-      setToBeDeleted(null);
+      console.log("Don't Delete", itemToDelete.type, itemToDelete.item)
     }
+    setToBeDeleted(null);
   }
 
   function ListMenu() {
@@ -148,7 +149,7 @@ function App() {
             className='deleteList' 
             onClick={() => {
               setIsConfirmVisible(true);
-              setToBeDeleted(opt)
+              setToBeDeleted({item: opt, type: 'list'})
             }}>X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
       )
     })
@@ -234,13 +235,14 @@ function App() {
           selectedGroup={selectedGroup} 
           setCurrTodo={setCurrTodo} 
           setIsEditMenuVisible={setIsEditMenuVisible} 
-          deleteTodo={deleteTodo}
+          setIsConfirmVisible={setIsConfirmVisible}
+          setToBeDeleted={setToBeDeleted}
           updateTodo={updateTodo}
         /> : 
         <p>No Todos</p>}
       {isEditMenuVisible && <EditForm currTodo={currTodo} updateTodo={updateTodo} setIsEditMenuVisible={setIsEditMenuVisible}/>}
       <button type="button" onClick={addNewTodo} className="addTodo addBtn">+</button>
-      {isConfirmVisible && <Confirm confirmDelete={confirmDelete} listTitle={toBeDeleted} setIsConfirmVisible={setIsConfirmVisible}/>}
+      {isConfirmVisible && <Confirm confirmDelete={confirmDelete} itemToDelete={toBeDeleted} setIsConfirmVisible={setIsConfirmVisible} />}
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { Todo, TodoList } from '../classes'
+import { Todo, TodoList, DeleteTypes } from '../classes'
 import TodoCard from './Todo'
 
 interface TodoGroupProps {
@@ -6,11 +6,12 @@ interface TodoGroupProps {
     selectedGroup: string
     setCurrTodo: React.Dispatch<React.SetStateAction<Todo>>;
     setIsEditMenuVisible: React.Dispatch<React.SetStateAction<boolean>>
-    deleteTodo: Function
+    setIsConfirmVisible: React.Dispatch<React.SetStateAction<boolean>>
+    setToBeDeleted: React.Dispatch<React.SetStateAction<DeleteTypes | null>>
     updateTodo: Function
 }
 
-export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsEditMenuVisible, deleteTodo, updateTodo }: TodoGroupProps) {
+export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsEditMenuVisible, setIsConfirmVisible, setToBeDeleted, updateTodo }: TodoGroupProps) {
     let todoArray: Todo[]
 
     if (!currList) return
@@ -34,6 +35,6 @@ export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsE
             todoArray = currList.getAllTodos()
     }
 
-    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsEditMenuVisible={setIsEditMenuVisible} deleteTodo={deleteTodo} updateTodo={updateTodo}/>)
+    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsConfirmVisible={setIsConfirmVisible} setIsEditMenuVisible={setIsEditMenuVisible} setToBeDeleted={setToBeDeleted} updateTodo={updateTodo}/>)
     return <>{cards}</>
   }

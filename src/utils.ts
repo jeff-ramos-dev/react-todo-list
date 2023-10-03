@@ -1,6 +1,7 @@
 import {User, TodoList, Todo} from './classes'
+
 function formatDate(date: Date): string{
-    return date.toString().split(' ').slice(0, 4).join(' ');
+    return date.toISOString().slice(0,10);
 }
 
 function saveToLocalStorage(updatedUser: User) {

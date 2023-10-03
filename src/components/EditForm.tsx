@@ -1,5 +1,6 @@
 import { Todo } from '../classes'
 import { useState } from 'react'
+import { formatDate } from '../utils'
 
 interface Props {
     currTodo: Todo 
@@ -45,7 +46,7 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
             const updatedTodo = getUpdatedTodo();
             updateTodo(updatedTodo)
             const newDate = new Date(e.target.value)
-            setCurrDateString(newDate.toISOString().slice(0, 10));
+            setCurrDateString(formatDate(newDate));
           }}
           value={currDateString}
         />

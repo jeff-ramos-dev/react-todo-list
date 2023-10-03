@@ -1,23 +1,25 @@
+import { DeleteTypes } from '../classes'
+
 interface ConfirmProps {
     confirmDelete: Function
-    listTitle: String | null
+    itemToDelete: DeleteTypes | null
     setIsConfirmVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
-export default function Confirm({ confirmDelete, listTitle, setIsConfirmVisible }: ConfirmProps) {
+export default function Confirm({ confirmDelete, itemToDelete, setIsConfirmVisible }: ConfirmProps) {
     return (
         <>
             <div className="overlay">
             </div>
             <div className="confirm">
-                <h3 className="confirmMessage">Delete {listTitle}?</h3>
+                <h3 className="confirmMessage">Delete {itemToDelete ? itemToDelete.item : ''}?</h3>
                 <div className="buttonContainer">
                     <button onClick={() => {
                         setIsConfirmVisible(false);
-                        confirmDelete(true, listTitle)
+                        confirmDelete(true, itemToDelete)
                     }}>Yes</button>
                     <button onClick={() => {
                         setIsConfirmVisible(false);
-                        confirmDelete(false, listTitle)
+                        confirmDelete(false, itemToDelete)
                     }}>No</button>
                 </div>
             </div>
