@@ -136,13 +136,36 @@ function App() {
       </div>
     )
   }
+
+  function generateNewListName(listOfLists: Map<string, TodoList>) {
+    let listNum = 1;
+    let newListTitle = `Untitled List ${listNum}`
+    let unique;
+    let allTitlesChecked = false;
+    while (!allTitlesChecked) {
+      unique = true;
+      console.log('starting to check lists');
+      for (const [listTitle, list] of listOfLists) {
+        if (listTitle === newListTitle) {
+          unique = false;
+          listNum++
+          newListTitle = `Untitled List ${listNum}`;
+          break;
+        }
+      }
+      if (unique) {
+        allTitlesChecked = true;
+      }
+    }
+    return newListTitle;
+  }
   
   function addNewList() {
     console.log('adding list')
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
-      newUser.createTodoList(`List ${newUser.listOfLists.size + 1}`);
+      newUser.createTodoList(generateNewListName(newUser.listOfLists));
       return newUser;
     })
   }
