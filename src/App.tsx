@@ -21,7 +21,7 @@ function App() {
         newTodoList.createTodo("Groceries").urgent = true;
         newTodoList.createTodo("Send Email").urgent = true;
         newTodoList.createTodo("Take Out Trash").complete = true;
-        newTodoList.createTodo("Super long title that nobody should be trying to write here").complete = true;
+        newTodoList.createTodo("Meal Prep").complete = true;
       }
       saveToLocalStorage(newUser);
       return newUser;
