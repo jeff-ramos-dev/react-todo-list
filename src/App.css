@@ -1,6 +1,5 @@
 #root {
   max-width: 1280px;
-  height: 100vh;
   margin: 0;
   padding: 0 1rem;
 
@@ -147,6 +146,7 @@ button {
 .listOptions {
   overflow-y: auto;
   padding: 1rem;
+  border-bottom: 2px solid white;
 }
 
 .listOptionContainer {

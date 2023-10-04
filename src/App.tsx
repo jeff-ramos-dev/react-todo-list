@@ -5,6 +5,7 @@ import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import EditForm from './components/EditForm'
 import Confirm from './components/Confirm'
+import ListMenu from './components/ListMenu'
 import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
@@ -135,35 +136,6 @@ function App() {
     setToBeDeleted(null);
   }
 
-  function ListMenu() {
-    const menuOptions: string[] = [];
-
-    user.listOfLists.forEach(list => {
-      menuOptions.push(list.title);
-    })
-
-    const optionMap = menuOptions.map(opt => {
-      return (
-        <li key={opt} className="listOptionContainer">
-          <button 
-            className='deleteList' 
-            onClick={() => {
-              setIsConfirmVisible(true);
-              setToBeDeleted({item: opt, type: 'list', title: opt})
-            }}>X</button><button onClick={selectList}  className="listMenuOption">{opt}</button></li>
-      )
-    })
-
-    return (
-      <div className="listMenu">
-        <ul className="listOptions">
-          {optionMap}
-        </ul> 
-        <button type="button" onClick={addNewList} className="addList addBtn">+</button>
-      </div>
-    )
-  }
-
   function addNewList() {
     console.log('adding list')
     setUser(prevUser => {
@@ -224,7 +196,15 @@ function App() {
     <>
       <h1 className="appTitle">2do</h1>
       {currList && <h2 className="listTitle" onClick={toggleListMenu}>{currList.title}</h2>}
-      {isListMenuVisible && <ListMenu />}
+      {isListMenuVisible &&
+        <ListMenu 
+          user={user}
+          selectList={selectList} 
+          addNewList={addNewList} 
+          setIsConfirmVisible={setIsConfirmVisible}
+          setToBeDeleted={setToBeDeleted}
+        />
+      }
       <div className="todoGroupContainer">
         <h3 onClick={toggleGroupMenu} className="todoGroup">{selectedGroup}</h3>
         {isGroupMenuVisible && <TodoGroupMenu handleClick={selectGroup}/>}
@@ -238,13 +218,15 @@ function App() {
           setIsConfirmVisible={setIsConfirmVisible}
           setToBeDeleted={setToBeDeleted}
           updateTodo={updateTodo}
-        />}
+        />
+      }
       {isEditMenuVisible &&
         <EditForm 
           currTodo={currTodo} 
           updateTodo={updateTodo} 
           setIsEditMenuVisible={setIsEditMenuVisible}
-        />}
+        />
+      }
       <button 
         type="button" 
         onClick={addNewTodo} 
