@@ -3,15 +3,17 @@ import { User, TodoList, Todo, DeleteTypes } from './classes'
 import { useState, useEffect } from 'react'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
-import EditForm from './components/EditForm'
+import TodoEditForm from './components/TodoEditForm'
 import Confirm from './components/Confirm'
 import ListMenu from './components/ListMenu'
+import EditListForm from './components/EditListForm'
+import CreateListForm from './components/CreateListForm'
+import Overlay from './components/Overlay'
 import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
   const [user, setUser] = useState(() => {
     if (localStorage.getItem('user')) {
-      console.log('user found')
       const savedUser = new User(JSON.parse(localStorage.getItem('user') as string));
       return loadFromLocalStorage(savedUser);
     } else {
@@ -33,11 +35,14 @@ function App() {
     newList = user.listOfLists.get(newList.title);
     return newList
   });
+  const [currListEdit, setCurrListEdit] = useState<TodoList | undefined>(undefined)
   const [selectedGroup, setSelectedGroup] = useState("All Todos");
   const [isListMenuVisible, setIsListMenuVisible] = useState(false);
   const [isGroupMenuVisible, setIsGroupMenuVisible] = useState(false);
-  const [isEditMenuVisible, setIsEditMenuVisible] = useState(false);
+  const [isTodoEditVisible, setIsTodoEditVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+  const [isListEditVisible, setIsListEditVisible] = useState(false);
+  const [isListCreateVisible, setIsListCreateVisible] = useState(false);
   const [currTodo, setCurrTodo] = useState(new Todo({parentList: currList ? currList.title : null}));
   const [toBeDeleted, setToBeDeleted] = useState<DeleteTypes | null>(null);
 
@@ -89,20 +94,14 @@ function App() {
   function handleDocumentClick(event: MouseEvent) {
     if (!event.target) return;
     const target = event.target as HTMLElement;
-    if (!target.classList.contains('todoGroupMenu') && 
-    !target.classList.contains('todoGroup')) {
-      setIsGroupMenuVisible(false);
-    }
-    if (!target.classList.contains('listMenu') &&
-    !target.classList.contains('listTitle') &&
-    !target.classList.contains('addList') &&
-    !target.classList.contains('deleteList') &&
-    !target.classList.contains('overlay') &&
-    !target.classList.contains('confirm') &&
-    !target.classList.contains('confirmMessage') &&
-    !target.classList.contains('buttonContainer')) {
+
+    if (target.classList.contains('overlay')) {
       setIsListMenuVisible(false);
-    }
+      setIsGroupMenuVisible(false);
+      setIsListEditVisible(false);
+      setIsTodoEditVisible(false);
+      setIsConfirmVisible(false);
+    } 
   }
 
   function updateTodo(updatedTodo: Todo) {
@@ -124,20 +123,13 @@ function App() {
   }
 
   function confirmDelete(response: boolean, itemToDelete: DeleteTypes) {
-
     if (response) {
-      console.log('Yes');
-      console.log('Delete', itemToDelete.type, itemToDelete.item)
       itemToDelete.type === 'list' ? deleteList(itemToDelete.item) : deleteTodo(itemToDelete.item);
-    } else {
-      console.log('No');
-      console.log("Don't Delete", itemToDelete.type, itemToDelete.item)
     }
     setToBeDeleted(null);
   }
 
   function addNewList() {
-    console.log('adding list')
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
@@ -147,15 +139,19 @@ function App() {
   }
 
   function addNewTodo() {
+    console.log('add new todo called');
     setUser(prevUser => {
-      const newUser = {...prevUser} as User;
-
-      if (currList) {
-        const newList = newUser.listOfLists.get(currList.title);
-        if (newList) {
-          newList.createTodo();
-        }
-      }
+      const newUser = new User({name: prevUser.name});
+      prevUser.listOfLists.forEach((list, title) => {
+        const newList = new TodoList({user: newUser, title: title});
+        list.todos.forEach((todo, id) => {
+          newList.todos.set(id,todo);
+        })
+          if (currList && currList.title === title) {
+            newList.createTodo();
+          }
+        newUser.listOfLists.set(title, newList);
+      })
       return newUser
     })
   }
@@ -179,65 +175,147 @@ function App() {
   function deleteList(listTitle: string) {
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
+      let validList;
       prevUser.listOfLists.forEach((list, title) => {
         if (title !== listTitle) {
           const newList = new TodoList({user: newUser, title: title});
+          validList = newList;
           list.todos.forEach((todo, id) => {
               newList.todos.set(id, todo);
           })
           newUser.listOfLists.set(title, newList);
         }
       })
+      if (currList?.title === listTitle) {
+        setCurrList(validList);
+      }
       return newUser;
     })
   }
+
+  function handleListEdit(prevListTitle: string, newListTitle: string) {
+    setUser(prevUser => {
+      const newUser = new User({name: prevUser.name});
+      prevUser.listOfLists.forEach((list, title) => {
+        const newList = new TodoList({
+          user: newUser, 
+          title: title === prevListTitle ? newListTitle : title
+        })
+        list.todos.forEach((todo, id) => {
+          newList.todos.set(id, todo);
+        })
+        newUser.listOfLists.set(newList.title, newList);
+      })
+      if (currList?.title === prevListTitle) {
+        setCurrList(newUser.listOfLists.get(newListTitle));
+      }
+      return newUser;
+    })
+  }
+
+  function handleListCreate(listTitle: string) {
+    if (user.listOfLists.has(listTitle)) {
+      console.log(listTitle, 'already exists');
+    } else if (listTitle === '') {
+      addNewList();
+    } else {
+      setUser(prevUser => {
+        const newUser = new User({name: prevUser.name});
+        prevUser.listOfLists.forEach((list, title) => {
+          const newList = new TodoList({user: newUser, title: title})
+          list.todos.forEach((todo, id) => {
+            newList.todos.set(id, todo);
+          })
+          newUser.listOfLists.set(title, newList);
+        });
+        newUser.createTodoList(listTitle);
+        return newUser;
+        })
+      };
+    }
+
+    const overlayProps = {
+      setIsConfirmVisible: setIsConfirmVisible,
+      setIsGroupMenuVisible: setIsGroupMenuVisible,
+      setIsListEditVisible: setIsListEditVisible,
+      setIsTodoEditVisible: setIsTodoEditVisible,
+      setIsListMenuVisible: setIsListMenuVisible,
+    }
 
   return (
     <>
       <h1 className="appTitle">2do</h1>
       {currList && <h2 className="listTitle" onClick={toggleListMenu}>{currList.title}</h2>}
       {isListMenuVisible &&
-        <ListMenu 
-          user={user}
-          selectList={selectList} 
-          addNewList={addNewList} 
-          setIsConfirmVisible={setIsConfirmVisible}
-          setToBeDeleted={setToBeDeleted}
-        />
+        <Overlay {...overlayProps}>
+          <ListMenu 
+            user={user}
+            selectList={selectList} 
+            setIsConfirmVisible={setIsConfirmVisible}
+            setToBeDeleted={setToBeDeleted}
+            setIsListCreateVisible={setIsListCreateVisible}
+            setIsListEditVisible={setIsListEditVisible}
+            setCurrListEdit={setCurrListEdit}
+          />
+        </Overlay>
       }
       <div className="todoGroupContainer">
         <h3 onClick={toggleGroupMenu} className="todoGroup">{selectedGroup}</h3>
-        {isGroupMenuVisible && <TodoGroupMenu handleClick={selectGroup}/>}
+        {isGroupMenuVisible && 
+        <Overlay {...overlayProps}>
+          <TodoGroupMenu handleClick={selectGroup}/>
+        </Overlay>}
       </div>
       {currList && 
         <TodoGroup 
           currList={currList} 
           selectedGroup={selectedGroup} 
           setCurrTodo={setCurrTodo} 
-          setIsEditMenuVisible={setIsEditMenuVisible} 
+          setIsEditMenuVisible={setIsTodoEditVisible} 
           setIsConfirmVisible={setIsConfirmVisible}
           setToBeDeleted={setToBeDeleted}
           updateTodo={updateTodo}
         />
       }
-      {isEditMenuVisible &&
-        <EditForm 
-          currTodo={currTodo} 
-          updateTodo={updateTodo} 
-          setIsEditMenuVisible={setIsEditMenuVisible}
-        />
+      {isTodoEditVisible &&
+        <Overlay {...overlayProps}>
+          <TodoEditForm 
+            currTodo={currTodo} 
+            updateTodo={updateTodo} 
+            setIsEditMenuVisible={setIsTodoEditVisible}
+          />
+        </Overlay>
       }
       <button 
         type="button" 
         onClick={addNewTodo} 
         className="addTodo addBtn"
       >+</button>
-      {isConfirmVisible &&
-        <Confirm 
-          confirmDelete={confirmDelete} 
-          itemToDelete={toBeDeleted} 
-          setIsConfirmVisible={setIsConfirmVisible} 
-        />}
+        {isConfirmVisible &&
+          <Overlay {...overlayProps}>
+            <Confirm 
+              confirmDelete={confirmDelete}
+              itemToDelete={toBeDeleted}
+              setIsConfirmVisible={setIsConfirmVisible}
+            />
+          </Overlay>}
+      {isListCreateVisible &&
+        <Overlay {...overlayProps}>
+          <CreateListForm 
+            handleSubmit={handleListCreate}
+            setIsListCreateVisible={setIsListCreateVisible}
+          />
+        </Overlay>
+      }
+      {isListEditVisible &&
+        <Overlay {...overlayProps}>
+          <EditListForm 
+            handleSubmit={handleListEdit}
+            currListTitle={currListEdit?.title}
+            setIsListEditVisible={setIsListEditVisible}
+          />
+        </Overlay>
+      }
     </>
   )
 }

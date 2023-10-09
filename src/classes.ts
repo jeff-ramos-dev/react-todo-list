@@ -28,8 +28,10 @@ class User {
             this.listOfLists = listOfLists;
     }
 
-    createTodoList(title: string): void {
-        this.listOfLists.set(title, new TodoList({title: title, todos: new Map(), user: this}));
+    createTodoList(title: string): TodoList{
+        const newList = new TodoList({title: title, todos: new Map(), user: this});
+        this.listOfLists.set(title, newList);
+        return newList;
     }
 
     deleteTodoList(title: string): void {
