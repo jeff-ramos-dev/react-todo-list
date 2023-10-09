@@ -14,7 +14,6 @@ import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from '.
 function App() {
   const [user, setUser] = useState(() => {
     if (localStorage.getItem('user')) {
-      console.log('user found')
       const savedUser = new User(JSON.parse(localStorage.getItem('user') as string));
       return loadFromLocalStorage(savedUser);
     } else {
@@ -102,9 +101,7 @@ function App() {
       setIsListEditVisible(false);
       setIsTodoEditVisible(false);
       setIsConfirmVisible(false);
-    } else if (target.classList.contains('close')) {
-      console.log(target.nextSibling);
-    }
+    } 
   }
 
   function updateTodo(updatedTodo: Todo) {
@@ -126,20 +123,13 @@ function App() {
   }
 
   function confirmDelete(response: boolean, itemToDelete: DeleteTypes) {
-
     if (response) {
-      console.log('Yes');
-      console.log('Delete', itemToDelete.type, itemToDelete.item)
       itemToDelete.type === 'list' ? deleteList(itemToDelete.item) : deleteTodo(itemToDelete.item);
-    } else {
-      console.log('No');
-      console.log("Don't Delete", itemToDelete.type, itemToDelete.item)
     }
     setToBeDeleted(null);
   }
 
   function addNewList() {
-    console.log('adding list')
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       newUser.listOfLists = new Map(prevUser.listOfLists);
@@ -149,15 +139,19 @@ function App() {
   }
 
   function addNewTodo() {
+    console.log('add new todo called');
     setUser(prevUser => {
-      const newUser = {...prevUser} as User;
-
-      if (currList) {
-        const newList = newUser.listOfLists.get(currList.title);
-        if (newList) {
-          newList.createTodo();
-        }
-      }
+      const newUser = new User({name: prevUser.name});
+      prevUser.listOfLists.forEach((list, title) => {
+        const newList = new TodoList({user: newUser, title: title});
+        list.todos.forEach((todo, id) => {
+          newList.todos.set(id,todo);
+        })
+          if (currList && currList.title === title) {
+            newList.createTodo();
+          }
+        newUser.listOfLists.set(title, newList);
+      })
       return newUser
     })
   }
@@ -200,17 +194,13 @@ function App() {
   }
 
   function handleListEdit(prevListTitle: string, newListTitle: string) {
-    console.log('editing list ', prevListTitle);
-    console.log(newListTitle);
     setUser(prevUser => {
       const newUser = new User({name: prevUser.name});
       prevUser.listOfLists.forEach((list, title) => {
-        console.log('checking list ', title);
         const newList = new TodoList({
           user: newUser, 
           title: title === prevListTitle ? newListTitle : title
         })
-        console.log(newList);
         list.todos.forEach((todo, id) => {
           newList.todos.set(id, todo);
         })
