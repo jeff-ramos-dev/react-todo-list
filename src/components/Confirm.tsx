@@ -7,11 +7,8 @@ interface ConfirmProps {
 }
 export default function Confirm({ confirmDelete, itemToDelete, setIsConfirmVisible }: ConfirmProps) {
     return (
-        <>
-            <div className="overlay">
-            </div>
-            <div className="confirm">
-                <h3 className="confirmMessage">Delete '{<span className="confirmItem">{itemToDelete && itemToDelete.title}</span>}'?</h3>
+            <div className="confirm modalContent">
+                <h3 className="confirmMessage">Delete {<span className="confirmItem">{itemToDelete && itemToDelete.title}</span>}?</h3>
                 <div className="buttonContainer">
                     <button onClick={() => {
                         setIsConfirmVisible(false);
@@ -23,6 +20,5 @@ export default function Confirm({ confirmDelete, itemToDelete, setIsConfirmVisib
                     }}>No</button>
                 </div>
             </div>
-        </>
     )
 }
