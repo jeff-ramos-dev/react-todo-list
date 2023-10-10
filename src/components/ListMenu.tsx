@@ -35,13 +35,13 @@ export default function ListMenu({ user, selectList, setIsConfirmVisible, setToB
               className="listMenuOption"
             >{opt}</button>
 
-            <span
+            {opt !== `${user.name}'s List` && <span
               className="listEdit" 
               onClick={() => {
                 setIsListEditVisible(true);
                 const list = user.listOfLists.get(opt);
                 setCurrListEdit(list);
-              }}>...</span>
+              }}>...</span>}
         </li>
         )
     })
