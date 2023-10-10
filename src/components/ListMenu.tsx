@@ -23,12 +23,12 @@ export default function ListMenu({ user, selectList, setIsConfirmVisible, setToB
       console.log(opt);
         return (
         <li key={opt} className="listOptionContainer">
-            <button 
+            {opt !== `${user.name}'s List` && <button 
               className='deleteList' 
               onClick={() => {
                 setIsConfirmVisible(true);
                 setToBeDeleted({item: opt, type: 'list', title: opt})
-            }}>X</button>
+            }}>X</button>}
 
             <button 
               onClick={(e) => selectList(e)}
