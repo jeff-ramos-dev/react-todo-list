@@ -435,14 +435,17 @@ label {
 .modalContent {
   z-index: 4;
 }
+
 .confirm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 80%;
-  width: 350px;
-  max-height: 80%;
-  height: 150px;
+  min-width: 250px;
+  max-height: 70%;
+  width: fit-content;
+  height: fit-content;
+  margin-top: 1.8rem;
   align-items: center;
   filter: opacity(100%);
 }
@@ -451,7 +454,9 @@ label {
   font-weight: normal;
   width: 80%;
   margin: 0;
+  padding: 0;
 }
+
 .confirmItem {
   color: black;
 }
