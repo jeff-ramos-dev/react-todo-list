@@ -24,13 +24,13 @@ export default function Overlay({
             </div>
             <div className="modal">
                 <button type="button" className="close" onClick={() => {
-                        setIsConfirmVisible(false);
-                        setIsGroupMenuVisible(false);
-                        setIsListCreateVisible(false);
-                        setIsListEditVisible(false);
-                        setIsTodoEditVisible(false);
-                        setIsListMenuVisible(false);
-                        setIsUsernameFormVisible(false);
+                    setIsConfirmVisible(false);
+                    setIsGroupMenuVisible(false);
+                    setIsListCreateVisible(false);
+                    setIsListEditVisible(false);
+                    setIsTodoEditVisible(false);
+                    setIsListMenuVisible(false);
+                    setIsUsernameFormVisible(false);
                 }}>X</button>
                 {children}
             </div>
