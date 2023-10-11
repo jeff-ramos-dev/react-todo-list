@@ -318,8 +318,8 @@ label {
   border: 2px solid var(--accent-color);
   font-size: 2.5rem;
   aspect-ratio: 1;
-  height: 50px;
-  width: 50px;
+  height: fit-content;
+  width: fit-content;
   margin: 1rem 0;
   text-align: center;
 }
@@ -406,10 +406,11 @@ label {
   position: absolute;
   top: 8px; 
   right: 8px;
-  width: 20px !important;
-  height: 20px;
+  aspect-ratio: 1;
+  width: fit-content !important;
+  height: fit-content;
   border-radius: 5px;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   text-align: center;
 }
 
@@ -430,7 +431,14 @@ label {
   a:hover {
     color: #747bff;
   }
+  .editDueDate {
+    color: black;
+  }
   button {
     background-color: #f9f9f9;
+    color: black;
+  }
+  .addBtn {
+    color: white;
   }
 }
