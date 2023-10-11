@@ -1,6 +1,7 @@
 import './App.css'
-import { User, TodoList, Todo, DeleteTypes } from './classes'
 import { useState, useEffect } from 'react'
+import { User, TodoList, Todo, DeleteTypes } from './classes'
+import { add, nextSunday } from 'date-fns'
 import TodoGroup from './components/TodoGroup'
 import TodoGroupMenu from './components/TodoGroupMenu'
 import TodoEditForm from './components/TodoEditForm'
@@ -9,24 +10,37 @@ import ListMenu from './components/ListMenu'
 import EditListForm from './components/EditListForm'
 import CreateListForm from './components/CreateListForm'
 import Overlay from './components/Overlay'
+import UsernameForm from './components/UsernameForm'
 import { saveToLocalStorage, loadFromLocalStorage, generateNewListName } from './utils'
 
 function App() {
+  const [isUsernameFormVisible, setIsUsernameFormVisible] = useState(true);
   const [user, setUser] = useState(() => {
     if (localStorage.getItem('user')) {
       const savedUser = new User(JSON.parse(localStorage.getItem('user') as string));
+      setIsUsernameFormVisible(false);
       return loadFromLocalStorage(savedUser);
     } else {
+      setIsUsernameFormVisible(true);
       const newUser = new User({name: 'User'});
       newUser.createTodoList(`${newUser.name}'s List`);
       const newTodoList = newUser.listOfLists.get(`${newUser.name}'s List`);
       if (newTodoList) {
-        newTodoList.createTodo("Groceries").urgent = true;
-        newTodoList.createTodo("Send Email").urgent = true;
-        newTodoList.createTodo("Take Out Trash").complete = true;
-        newTodoList.createTodo("Meal Prep").complete = true;
+        const newTodo1 = newTodoList.createTodo("Groceries")
+        newTodo1.dueDate = add(new Date(), {days: 1})
+        newTodo1.description = '- Bananas\n- Milk\n - Cereal\n - Bagels'
+        const newTodo2 = newTodoList.createTodo("Send Email")
+        newTodo2.urgent = true;
+        newTodo2.complete = true;
+        newTodo2.description = 'Share the schedule for next week with Devraj'
+        const newTodo3 = newTodoList.createTodo("Take Out Trash")
+        newTodo3.complete = true;
+        newTodo3.urgent = true;
+        newTodo3.description = 'Trash truck comes at 7am tomorrow'
+        const newTodo4 = newTodoList.createTodo("Meal Prep")
+        newTodo4.description = 'Chicken, Rice, and Broccoli bowls.'
+        newTodo4.dueDate = nextSunday(new Date())
       }
-      saveToLocalStorage(newUser);
       return newUser;
     } 
   });
@@ -240,6 +254,7 @@ function App() {
       setIsListEditVisible: setIsListEditVisible,
       setIsTodoEditVisible: setIsTodoEditVisible,
       setIsListMenuVisible: setIsListMenuVisible,
+      setIsUsernameFormVisible: setIsUsernameFormVisible
     }
 
   return (
@@ -277,6 +292,14 @@ function App() {
           updateTodo={updateTodo}
         />
       }
+      {isUsernameFormVisible && 
+      <Overlay {...overlayProps}>
+        <UsernameForm 
+          setUser={setUser}
+          setCurrList={setCurrList}
+          setIsUsernameFormVisible={setIsUsernameFormVisible}
+        />
+      </Overlay>}
       {isTodoEditVisible &&
         <Overlay {...overlayProps}>
           <TodoEditForm 
