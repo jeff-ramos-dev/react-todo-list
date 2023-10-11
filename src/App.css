@@ -237,7 +237,8 @@ label {
 
 .todoLeft {
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
+  gap: 5px;
   font-family: monospace;
 }
 
@@ -259,7 +260,6 @@ label {
   font-size: 1rem;
   background-color: transparent;
   border: none;
-  margin-left: 5px;
   cursor: pointer;
 }
 
