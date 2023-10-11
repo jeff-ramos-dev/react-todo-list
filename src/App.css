@@ -369,6 +369,11 @@ label {
   text-align: center;
 }
 
+.addTodoText {
+  text-align: center;
+  pointer-events: none;
+}
+
 .listMenu > .addBtn {
   margin: 0.5rem;
 }
