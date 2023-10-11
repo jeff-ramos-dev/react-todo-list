@@ -363,8 +363,8 @@ label {
   font-size: 3.5rem;
   aspect-ratio: 1;
   text-overflow: clip;
-  min-height: 4rem; 
-  min-width: 4rem;
+  height: 50px;
+  width: 50px;
   margin: 1rem 0;
   text-align: center;
 }
