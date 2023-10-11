@@ -208,13 +208,13 @@ label {
 
 .todoContainer {
   display: flex;
-  flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
   width: 90%;
   margin-top: 1.7rem;
-  padding: 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
   border-radius: 10px;
   background-color: var(--primary-color);
   cursor: pointer;
@@ -227,21 +227,39 @@ label {
   filter: brightness(120%);
 }
 
-.todoRight {
+.todoBottom {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
   align-items: center;
   padding-left: 10px;
+}
+
+.todoLeft {
+  display: flex;
+  justify-content: start;
+  font-family: monospace;
+}
+
+.todoRight {
+  display: flex;
+  justify-content: space-around;
+  width: 80px;
+}
+
+.day {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
 }
 
 .picker {
   width: 120px;
   color: white;
   font-size: 1rem;
-  font-family: monospace;
   background-color: transparent;
   border: none;
-  margin-right: 10px;
+  margin-left: 5px;
   cursor: pointer;
 }
 
@@ -273,6 +291,7 @@ label {
 .strikethrough {
   font-weight: normal;
   letter-spacing: normal;
+  text-decoration: line-through;
 }
 
 .edit, .delete {
@@ -358,8 +377,8 @@ label {
   background-color: var(--accent-color);
   border-radius: 100%;
   border: 2px solid var(--accent-color);
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   padding: 0;
   margin: 1rem 0;
 }
