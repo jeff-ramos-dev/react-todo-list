@@ -67,8 +67,23 @@ button {
   transition: border-color 0.25s;
 }
 
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 .appTitle {
   font-family:cursive;
+}
+
+.usernameForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 20px;
 }
 
 .addBtn:hover {
@@ -371,10 +386,11 @@ button {
   font-size: 0.8rem;
 }
 
-.listForm > button {
+.listForm > button, .usernameForm > button {
   width: 60%;
   padding: 5px 2px;
 }
+
 
 #newListTitle {
   margin-bottom: 1rem;
@@ -395,7 +411,7 @@ button {
 }
 
 
-.buttonContainer > button:hover, .listForm > button:hover, .editForm > button:hover {
+.buttonContainer > button:hover, .listForm > button:hover, .editForm > button:hover, .usernameForm > button:hover {
   filter: invert(100%);
 }
 
