@@ -55,7 +55,7 @@ function generateNewListName(listOfLists: Map<string, TodoList>): string {
   let allTitlesChecked = false;
   while (!allTitlesChecked) {
     unique = true;
-    for (const [listTitle, list] of listOfLists) {
+    for (const [listTitle] of listOfLists) {
       if (listTitle === newListTitle) {
         unique = false;
         listNum++
