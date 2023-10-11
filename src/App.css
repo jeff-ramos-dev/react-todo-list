@@ -10,13 +10,6 @@
   flex-grow: 1;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  --accent-color: #ed6e04;
-  --primary-color: #604f8f;
-  --secondary-color: #c1a0ff;
-  --todo-complete: #545454;
-
   text-decoration: none;
   text-align: center;
   font-family: Verdana, Arial, sans-serif;
@@ -34,9 +27,19 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #242424;
+  background-color: var(--background-color);
   display: flex;
   justify-content: center;
+  color: white;
+
+  --background-color: #242424;
+  --background-color-light: #a4a4a4;
+  --accent-color: #ed6e04;
+  --primary-color: #604f8f;
+  --secondary-color: #c1a0ff;
+  --secondary-color-light: #604f8f;
+  --todo-complete: #545454;
+  --background-color: #242424;
 }
 
 h1 {
@@ -479,9 +482,9 @@ label {
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
+  body {
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--background-color-light);
   }
   a:hover {
     color: #747bff;
@@ -495,5 +498,14 @@ label {
   }
   .addBtn {
     color: white;
+  }
+  .listTitle {
+    border-bottom: 2px solid var(--secondary-color-light);
+  }
+  .listTitle:hover, .todoGroup:hover {
+    color: var(--secondary-color-light);
+  }
+  .todoGroup {
+    border-bottom: 2px solid var(--secondary-color-light);
   }
 }
