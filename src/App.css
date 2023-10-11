@@ -320,7 +320,8 @@ label {
   aspect-ratio: 1;
   height: 50px;
   width: 50px;
-  line-height: -10px;
+  padding-top: -20px;
+  padding-bottom: -20px;
   margin: 1rem 0;
   text-align: center;
 }
