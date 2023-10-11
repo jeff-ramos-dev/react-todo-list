@@ -50,29 +50,34 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, setI
                 updateTodo(updatedTodo);
             }}
         >
-            <div className="todoRight">
-                <input
-                    type="date" 
-                    className="picker"
-                    value={formatDate(todo.dueDate)}
-                    onChange={(e) => {
-                        const target = e.target as HTMLInputElement;
-                        const value = target.value;
-                        const updatedTodo = getUpdatedTodo();
-                        updatedTodo.dueDate = new Date(value);
-                        updateTodo(updatedTodo);
-                }}
-                />
-                <img src={editImg} className="edit" onClick={() => {
-                    setCurrTodo(todo);
-                    setIsEditMenuVisible(true);
-                }}></img>
-                <img src={trashImg} className="delete" onClick={() => {
-                    setIsConfirmVisible(true);
-                    setToBeDeleted({item: todo.id, type: "todo", title: todo.title});
-                }}></img>
+            <div className="todoBottom">
+                <div className="todoLeft">
+                    <p className="day">{todo.dueDate.toDateString().slice(0,3)}</p>
+                    <input
+                        type="date" 
+                        className="picker"
+                        value={formatDate(todo.dueDate)}
+                        onChange={(e) => {
+                            const target = e.target as HTMLInputElement;
+                            const value = target.value;
+                            const updatedTodo = getUpdatedTodo();
+                            updatedTodo.dueDate = new Date(value);
+                            updateTodo(updatedTodo);
+                        }}
+                    />
+                </div>
+                <div className="todoRight">
+                    <img src={editImg} className="edit" onClick={() => {
+                        setCurrTodo(todo);
+                        setIsEditMenuVisible(true);
+                    }}></img>
+                    <img src={trashImg} className="delete" onClick={() => {
+                        setIsConfirmVisible(true);
+                        setToBeDeleted({item: todo.id, type: "todo", title: todo.title});
+                    }}></img>
+                </div>
             </div>
-                {todo.complete ? <del className="todoTitle strikethrough">{todo.title}</del> : <p className="todoTitle">{todo.title}</p> }
+                {todo.complete ? <p className="todoTitle strikethrough">{todo.title}</p> : <p className="todoTitle">{todo.title}</p> }
         </div>
     )
   }
