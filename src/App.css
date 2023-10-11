@@ -211,6 +211,8 @@ label {
 
 .picker {
   width: 100px;
+  color: white;
+  font-family: monospace;
   background-color: transparent;
   border: none;
   margin-right: 10px;
