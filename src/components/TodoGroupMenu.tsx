@@ -7,7 +7,12 @@ export default function TodoGroupMenu({handleClick}: MenuProps) {
 
     const optionMap = menuOptions.map(opt => {
         return (
-            <li key={opt}><button onClick={handleClick}  className="todoGroupMenuOption">{opt}</button></li>
+            <li key={opt}>
+                <button 
+                    onClick={handleClick} 
+                    className="todoGroupMenuOption"
+                >{opt}</button>
+            </li>
         )
     })
 

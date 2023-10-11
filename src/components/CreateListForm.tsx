@@ -8,13 +8,17 @@ interface ListFormProps {
 export default function CreateListForm({ handleSubmit, setIsListCreateVisible }: ListFormProps) {
     const [currTitle, setCurrTitle] = useState('');
     return (
-        <div className="listForm">
-            <label htmlFor="newListTitle">New List Title</label>
-            <input type="text" id="newListTitle" name="newListTitle" placeholder="List Title" onChange={e => setCurrTitle(e.target.value)} value={currTitle}/>
-            <button onClick={() => {
+        <form 
+            className="listForm"
+            onSubmit={(e) => {
+                e.preventDefault();
                 handleSubmit(currTitle);
                 setIsListCreateVisible(false);
-            }}>Create List</button>
-        </div>
+            }} 
+        >
+            <label htmlFor="newListTitle">New List Title</label>
+            <input type="text" id="newListTitle" name="newListTitle" placeholder="List Title" onChange={e => setCurrTitle(e.target.value)} value={currTitle}/>
+            <button>Create List</button>
+        </form>
     )
 }

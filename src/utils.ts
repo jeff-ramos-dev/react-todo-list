@@ -5,7 +5,6 @@ function formatDate(date: Date): string{
 }
 
 function saveToLocalStorage(updatedUser: User) {
-  console.log('saving to local storage');
   const lol: any = {};
   updatedUser.listOfLists.forEach(list => {
   lol[list.title] = {
@@ -46,7 +45,6 @@ function loadFromLocalStorage(savedUser: any): User {
       curr.todos = todoMap
     }
   })
-  console.log(savedUser);
   return savedUser;   
 }
 
@@ -57,7 +55,6 @@ function generateNewListName(listOfLists: Map<string, TodoList>): string {
   let allTitlesChecked = false;
   while (!allTitlesChecked) {
     unique = true;
-    console.log('starting to check lists');
     for (const [listTitle, list] of listOfLists) {
       if (listTitle === newListTitle) {
         unique = false;

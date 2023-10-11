@@ -26,7 +26,7 @@ export default function UsernameForm({ setUser, setCurrList, setIsUsernameFormVi
         >
             <label>
                 Username
-                <input type="text" placeholder="Enter your name" className="usernameInput"></input>
+                <input type="text" autoFocus={true} placeholder="Enter your name" className="usernameInput"></input>
             </label>
             <button className="submitUsername">SUBMIT</button>
         </form>

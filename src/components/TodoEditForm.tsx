@@ -52,13 +52,11 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
         />
         <div className="buttonContainer">
           <button type="button" className="submit" onClick={() => {
-            console.log('submit');
             const updatedTodo = getUpdatedTodo();
             updateTodo(updatedTodo);
             setIsEditMenuVisible(false);
           }}>SUBMIT</button>
           <button type="button" className="cancel" onClick={() => {
-            console.log('cancel');
             setIsEditMenuVisible(false);
           }}>CANCEL</button>
         </div>

@@ -35,6 +35,23 @@ export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsE
             todoArray = currList.getAllTodos()
     }
 
-    const cards = todoArray.map(elem => <TodoCard key={elem.id} todo={elem} setCurrTodo={setCurrTodo} setIsConfirmVisible={setIsConfirmVisible} setIsEditMenuVisible={setIsEditMenuVisible} setToBeDeleted={setToBeDeleted} updateTodo={updateTodo}/>)
-    return <>{cards.length ? cards : <p>No Todos</p>}</>
+    const cards = todoArray.map(elem => {
+        return (
+            <TodoCard 
+                key={elem.id} 
+                todo={elem} 
+                setCurrTodo={setCurrTodo} 
+                setIsConfirmVisible={setIsConfirmVisible} 
+                setIsEditMenuVisible={setIsEditMenuVisible} 
+                setToBeDeleted={setToBeDeleted} 
+                updateTodo={updateTodo}
+            />
+        )
+    });
+
+    return (
+        <>
+            {cards.length ? cards : <p>No Todos</p>}
+        </>
+    )
   }

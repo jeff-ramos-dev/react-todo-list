@@ -13,14 +13,11 @@ interface ListMenuProps {
 export default function ListMenu({ user, selectList, setIsConfirmVisible, setToBeDeleted, setIsListEditVisible, setIsListCreateVisible, setCurrListEdit }: ListMenuProps) {
     const menuOptions: string[] = [];
 
-    console.log('list menu');
-
     user.listOfLists.forEach(list => {
         menuOptions.push(list.title);
     })
 
     const optionMap = menuOptions.map(opt => {
-      console.log(opt);
         return (
         <li key={opt} className="listOptionContainer">
             {opt !== `${user.name}'s List` && <button 

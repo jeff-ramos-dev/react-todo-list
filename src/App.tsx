@@ -28,7 +28,7 @@ function App() {
       if (newTodoList) {
         const newTodo1 = newTodoList.createTodo("Groceries")
         newTodo1.dueDate = add(new Date(), {days: 1})
-        newTodo1.description = '- Bananas\n- Milk\n - Cereal\n - Bagels'
+        newTodo1.description = '- Bananas\n- Milk\n- Cereal\n- Bagels'
         const newTodo2 = newTodoList.createTodo("Send Email")
         newTodo2.urgent = true;
         newTodo2.complete = true;
@@ -251,6 +251,7 @@ function App() {
     const overlayProps = {
       setIsConfirmVisible: setIsConfirmVisible,
       setIsGroupMenuVisible: setIsGroupMenuVisible,
+      setIsListCreateVisible: setIsListCreateVisible,
       setIsListEditVisible: setIsListEditVisible,
       setIsTodoEditVisible: setIsTodoEditVisible,
       setIsListMenuVisible: setIsListMenuVisible,
