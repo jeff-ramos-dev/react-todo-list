@@ -1,6 +1,6 @@
 #root {
   min-height: 100vh;
-  max-width: 1280px;
+  max-width: 1000px;
   margin: 0;
   padding: 0 1rem;
 
@@ -99,7 +99,7 @@ label {
 
 .listTitle {
   width: fit-content;
-  font-size: 4rem;
+  font-size: 3rem;
   margin: 1rem 0 0.5rem 0;
   padding: 0;
   cursor: pointer;
@@ -121,7 +121,7 @@ label {
 
 .todoGroup {
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0;
   border-bottom: 2px solid var(--secondary-color);
 }
@@ -232,9 +232,9 @@ label {
 }
 
 .picker {
-  width: 135px;
+  width: 120px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: monospace;
   background-color: transparent;
   border: none;
@@ -244,7 +244,7 @@ label {
 
 .todoTitle {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: right;
   color: white;
   font-weight: bold;
@@ -273,7 +273,7 @@ label {
 }
 
 .edit, .delete {
-  width: 40px;
+  width: 30px;
 }
 
 .edit:hover, .delete:hover, .deleteList:hover {
@@ -358,8 +358,10 @@ label {
   border-radius: 100%;
   border: 2px solid var(--accent-color);
   font-size: 3.5rem;
-  height: 4rem; 
-  width: 4rem;
+  aspect-ratio: 1;
+  text-overflow: clip;
+  min-height: 4rem; 
+  min-width: 4rem;
   margin: 1rem 0;
   text-align: center;
 }
