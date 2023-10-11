@@ -27,7 +27,15 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
   }
 
     return (
-      <form className="editForm">
+      <form 
+        className="editForm"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const updatedTodo = getUpdatedTodo();
+          updateTodo(updatedTodo);
+          setIsEditMenuVisible(false);
+        }} 
+      >
         <label htmlFor="editTitle">Title</label>
         <input type="text" id="editTitle" name="editTitle" className="editTitle" defaultValue={currTodo.title}/>
         <label htmlFor="editDescription">Description</label>
@@ -51,11 +59,7 @@ export default function EditForm({ currTodo, updateTodo, setIsEditMenuVisible }:
           value={currDateString}
         />
         <div className="buttonContainer">
-          <button type="button" className="submit" onClick={() => {
-            const updatedTodo = getUpdatedTodo();
-            updateTodo(updatedTodo);
-            setIsEditMenuVisible(false);
-          }}>SUBMIT</button>
+          <button className="submit">SUBMIT</button>
           <button type="button" className="cancel" onClick={() => {
             setIsEditMenuVisible(false);
           }}>CANCEL</button>
