@@ -18,7 +18,14 @@ export default function CreateListForm({ handleSubmit, currListTitle, setIsListE
             }}
         >
             <label htmlFor="newListTitle">New List Title</label>
-            <input type="text" autoFocus={true} id="newListTitle" name="newListTitle" placeholder="List Title" onChange={e => setCurrTitle(e.target.value)} value={currTitle}/>
+            <input
+                type="text" 
+                id="newListTitle" 
+                name="newListTitle" 
+                placeholder="List Title" 
+                autoFocus={true}
+                onChange={e => setCurrTitle(e.target.value)}
+                value={currTitle}/>
             <button>Submit</button>
         </form>
     )
