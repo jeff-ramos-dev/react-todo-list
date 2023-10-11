@@ -438,27 +438,28 @@ label {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 200px;
-  min-width: 400px;
+  padding-top: 1rem;
+  min-height: 150px;
   width: fit-content;
+  max-width: 80%;
   height: fit-content;
   flex-direction: column;
 }
 
 .listForm > input {
-  height: 2rem;
-  width: 80%;
-  font-size: 2rem;
+  height: 1.5rem;
+  max-width: 90%;
+  font-size: 1.5rem;
 }
 
 .listForm > label {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .listForm > button, .usernameForm > button {
-  width: 60%;
-  font-size: 2rem;
-  padding: 5px 2px;
+  max-width: 80%;
+  font-size: 1.5rem;
+  padding: 10px 15px;
 }
 
 
