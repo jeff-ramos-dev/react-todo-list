@@ -1,21 +1,15 @@
 #root {
-  max-width: 1280px;
   min-height: 100vh;
+  max-width: 1000px;
   margin: 0;
   padding: 0 1rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  --accent-color: #ed6e04;
-  --primary-color: #604f8f;
-  --secondary-color: #c1a0ff;
-  --todo-complete: #545454;
-
   text-decoration: none;
   text-align: center;
   font-family: Verdana, Arial, sans-serif;
@@ -33,6 +27,19 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  color: white;
+
+  --background-color: #242424;
+  --background-color-light: #a4a4a4;
+  --accent-color: #ed6e04;
+  --primary-color: #604f8f;
+  --secondary-color: #c1a0ff;
+  --secondary-color-light: #604f8f;
+  --todo-complete: #545454;
+  --background-color: #242424;
 }
 
 h1 {
@@ -60,6 +67,7 @@ li {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
+  color: white;
   font-size: 1em;
   font-weight: 500;
   background-color: #1a1a1a;
@@ -74,7 +82,9 @@ label {
 }
 
 .appTitle {
-  font-family:cursive;
+  font-size: 7rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 4px var(--accent-color);  
 }
 
 .usernameForm {
@@ -92,7 +102,8 @@ label {
 
 .listTitle {
   width: fit-content;
-  margin: 1rem;
+  font-size: 3rem;
+  margin: 1rem 0 0.5rem 0;
   padding: 0;
   cursor: pointer;
   border-bottom: 2px solid var(--secondary-color);
@@ -106,34 +117,34 @@ label {
 .todoGroupContainer {
   position: relative;
   display: flex;
+  margin: 1rem 0 0 0;
   justify-content: center;
   align-items: center;
-  height: 30px;
-  margin: 0;
 }
 
 .todoGroup {
   cursor: pointer;
-  height: 30px;
+  font-size: 2rem;
   margin: 0;
   border-bottom: 2px solid var(--secondary-color);
 }
 
 .todoGroupMenu {
-  width: 160px;
-  height: 200px;
+  width: 250px;
+  height: 350px;
   font-weight: bold;
+  font-size: 2rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 
 .listMenu {
-  width: 260px;
+  min-width: 260px;
   height: fit-content;
-  min-height: 100px;
-  max-height: 250px;
+  min-height: 350px;
+  max-height: 450px;
+  margin-top: 1rem;
   margin-bottom: -1rem;
   font-weight: bold;
   z-index: 2;
@@ -146,7 +157,9 @@ label {
 .listOptions {
   overflow-y: auto;
   padding: 1rem;
-  margin: 10px;
+  margin: 1rem 0.5rem;
+  min-height: 175px;
+  max-width: 375px;
   border: 2px solid var(--secondary-color);
 }
 
@@ -164,20 +177,28 @@ label {
   padding: 0;
 }
 
+.todoGroupMenuOption:hover {
+  border-bottom: 1px solid var(--accent-color);
+  padding-bottom: -1px;
+  border-radius: 0;
+}
+
 .listMenuOption {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   justify-self: end;
   flex-grow: 1;
+  letter-spacing: 0.1rem;
   min-height: 3rem;
 }
 
 .listEdit {
   writing-mode: vertical-rl;
   text-orientation: upright;
-  letter-spacing: -14px;
-  text-indent: -22px;
-  height: 28px;
+  letter-spacing: -0.8rem;
+  text-indent: -1.2rem;
+  height: 1.8rem;
+  font-size: 1.2rem;
 }
 
 .todoGroupMenuOption:hover, .listMenuOption:hover, .listEdit:hover {
@@ -187,42 +208,65 @@ label {
 
 .todoContainer {
   display: flex;
-  flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
+  flex-direction: column-reverse;
   justify-content: space-between;
+  align-items: center;
   width: 90%;
   margin-top: 1.7rem;
-  padding: 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
   border-radius: 10px;
   background-color: var(--primary-color);
   cursor: pointer;
 }
 .todoContainer:nth-of-type(2) {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .todoContainer:hover {
   filter: brightness(120%);
 }
 
-.todoRight {
+.todoBottom {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
   align-items: center;
   padding-left: 10px;
 }
 
+.todoLeft {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: monospace;
+}
+
+.todoRight {
+  display: flex;
+  justify-content: space-around;
+  width: 80px;
+}
+
+.day {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
 .picker {
-  width: 100px;
+  width: 120px;
+  color: white;
+  font-size: 1rem;
   background-color: transparent;
   border: none;
-  margin-right: 10px;
   cursor: pointer;
 }
 
 .todoTitle {
   margin: 0;
   font-size: 1rem;
+  text-align: right;
   color: white;
   font-weight: bold;
   letter-spacing: 1px;
@@ -247,9 +291,10 @@ label {
 .strikethrough {
   font-weight: normal;
   letter-spacing: normal;
+  text-decoration: line-through;
 }
 
-.edit, .delete, .deleteList {
+.edit, .delete {
   width: 30px;
 }
 
@@ -258,12 +303,15 @@ label {
 }
 
 .deleteList {
+  width: fit-content;
   margin-right: 10px;
+  font-size: 1.5rem;
+  text-align: center;
   justify-self: start;
 }
 
 .editForm {
-  min-width: 280px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -275,8 +323,17 @@ label {
   max-width: 90%;
   border-radius: 4px;
   border: none;
-  height: 20px;
   padding-left: 10px;
+}
+
+.editForm > label {
+  font-size: 1.2rem;
+}
+
+.editTitle {
+  height: 30px;
+  width: 70%;
+  font-size: 1.2rem;
 }
 
 .editDescription {
@@ -289,11 +346,19 @@ label {
 }
 
 .editDueDate {
-  width: 100px;
+  width: 120px;
+  color: white;
+  font-family: monospace;
   border: none;
+  font-size: 1rem;
   padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.editUrgent, .editComplete {
+  height: 25px;
+  width: 25px;
 }
 
 .buttonContainer {
@@ -305,21 +370,34 @@ label {
 
 .buttonContainer > button {
   padding: 0.6em 1.2em;
+  font-size: 1.2rem;
 }
 
 .addBtn {
+  position: relative;
   background-color: var(--accent-color);
-  border-radius: 100%;
+  border-radius: 10px;
   border: 2px solid var(--accent-color);
-  font-size: 2.5rem;
   height: 50px;
   width: 50px;
+  padding: 0;
   margin: 1rem 0;
+}
+
+.addTodoText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.5rem;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  pointer-events: none;
 }
 
 .listMenu > .addBtn {
-  margin: 0;
+  margin: 0.5rem;
 }
 
 .overlay {
@@ -342,7 +420,10 @@ label {
   justify-content: center;
   align-items: center;
   height: fit-content;
-  max-width: 280px;
+  width: fit-content;
+  min-width: 250px;
+  min-height: 100px;
+  max-width: min(680px, 80%);
   border: 2px solid white;
   border-radius: 10px;
   padding: 20px;
@@ -356,13 +437,17 @@ label {
 .modalContent {
   z-index: 4;
 }
+
 .confirm {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  max-width: 80%;
+  max-height: 70%;
+  width: fit-content;
   height: fit-content;
-  width: 200px;
+  margin-top: 1.8rem;
+  align-items: center;
   filter: opacity(100%);
 }
 
@@ -370,7 +455,9 @@ label {
   font-weight: normal;
   width: 80%;
   margin: 0;
+  padding: 0;
 }
+
 .confirmItem {
   color: black;
 }
@@ -379,16 +466,28 @@ label {
   position: relative;
   display: flex;
   align-items: center;
+  padding-top: 1rem;
+  min-height: 150px;
+  width: fit-content;
+  max-width: 80%;
+  height: fit-content;
   flex-direction: column;
 }
 
+.listForm > input {
+  height: 1.5rem;
+  max-width: 90%;
+  font-size: 1.5rem;
+}
+
 .listForm > label {
-  font-size: 0.8rem;
+  font-size: 1.5rem;
 }
 
 .listForm > button, .usernameForm > button {
-  width: 60%;
-  padding: 5px 2px;
+  max-width: 80%;
+  font-size: 1.5rem;
+  padding: 10px 15px;
 }
 
 
@@ -400,10 +499,13 @@ label {
   position: absolute;
   top: 8px; 
   right: 8px;
-  width: 20px !important;
-  height: 20px;
+  aspect-ratio: 1;
+  width: fit-content !important;
+  height: fit-content;
   border-radius: 5px;
-  font-size: 0.5rem;
+  font-size: 2rem;
+  padding: 0 0.5rem;
+  text-align: center;
 }
 
 .close:hover {
@@ -416,14 +518,30 @@ label {
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
+  body {
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--background-color-light);
   }
   a:hover {
     color: #747bff;
   }
+  .editDueDate {
+    color: black;
+  }
   button {
     background-color: #f9f9f9;
+    color: black;
+  }
+  .addBtn {
+    color: white;
+  }
+  .listTitle {
+    border-bottom: 2px solid var(--secondary-color-light);
+  }
+  .listTitle:hover, .todoGroup:hover {
+    color: var(--secondary-color-light);
+  }
+  .todoGroup {
+    border-bottom: 2px solid var(--secondary-color-light);
   }
 }
