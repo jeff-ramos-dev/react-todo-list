@@ -310,11 +310,7 @@ function App() {
           />
         </Overlay>
       }
-      <button 
-        type="button" 
-        onClick={addNewTodo} 
-        className="addTodo addBtn"
-      >+</button>
+
         {isConfirmVisible &&
           <Overlay {...overlayProps}>
             <Confirm 
@@ -340,6 +336,13 @@ function App() {
           />
         </Overlay>
       }
+      <button 
+        type="button" 
+        onClick={addNewTodo} 
+        className="addTodo addBtn"
+      >
+        <p className="addTodoText">+</p>
+      </button>
     </>
   )
 }
