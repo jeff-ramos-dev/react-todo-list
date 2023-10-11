@@ -421,6 +421,8 @@ label {
   align-items: center;
   height: fit-content;
   width: fit-content;
+  min-width: 250px;
+  min-height: 100px;
   max-width: min(680px, 80%);
   border: 2px solid white;
   border-radius: 10px;
@@ -441,7 +443,6 @@ label {
   flex-direction: column;
   justify-content: center;
   max-width: 80%;
-  min-width: 250px;
   max-height: 70%;
   width: fit-content;
   height: fit-content;
