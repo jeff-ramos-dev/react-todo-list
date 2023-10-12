@@ -52,9 +52,7 @@ export default function ListMenu({ user, selectList, setIsConfirmVisible, setToB
           type="button" 
           onClick={() => setIsListCreateVisible(true)} 
           className="addList addBtn"
-        >
-          <p className="addTodoText">+</p>
-        </button>
+        ></button>
       </div>
     )
 }

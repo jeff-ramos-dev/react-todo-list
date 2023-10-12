@@ -340,9 +340,7 @@ function App() {
         type="button" 
         onClick={addNewTodo} 
         className="addTodo addBtn"
-      >
-        <p className="addTodoText">+</p>
-      </button>
+      ></button>
     </>
   )
 }

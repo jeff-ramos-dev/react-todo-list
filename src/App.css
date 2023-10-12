@@ -376,7 +376,7 @@ label {
 .addBtn {
   position: relative;
   background-color: var(--accent-color);
-  border-radius: 10px;
+  border-radius: 50%;
   border: 2px solid var(--accent-color);
   height: 50px;
   width: 50px;
@@ -384,16 +384,25 @@ label {
   margin: 1rem 0;
 }
 
-.addTodoText {
+.addBtn::before, .addBtn::after {
+  content: '';
+  background-color: white;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3.5rem;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  pointer-events: none;
+  display: block;
+}
+
+.addBtn::before {
+  top:20px;
+  bottom:20px;
+  left:6px;
+  right:6px;
+}
+
+.addBtn::after {
+  top:6px;
+  bottom:6px;
+  left:20px;
+  right:20px;
 }
 
 .listMenu > .addBtn {
