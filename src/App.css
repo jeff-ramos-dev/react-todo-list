@@ -442,8 +442,6 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 80%;
-  max-height: 70%;
   width: fit-content;
   height: fit-content;
   margin-top: 1.8rem;
