@@ -60,8 +60,10 @@ export default function TodoCard({ todo, setCurrTodo, setIsEditMenuVisible, setI
                         onChange={(e) => {
                             const target = e.target as HTMLInputElement;
                             const value = target.value;
+                            console.log(value);
+                            const dateWithSlashes = value.replace(/[-]/g, '/');
                             const updatedTodo = getUpdatedTodo();
-                            updatedTodo.dueDate = new Date(value);
+                            updatedTodo.dueDate = new Date(dateWithSlashes);
                             updateTodo(updatedTodo);
                         }}
                     />
