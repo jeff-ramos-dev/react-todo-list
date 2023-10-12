@@ -1,5 +1,6 @@
 import { User, TodoList } from '../classes'
 import { saveToLocalStorage } from '../utils'
+import { add, nextSunday } from 'date-fns'
 
 interface UsernameFormProps {
     setUser: React.Dispatch<React.SetStateAction<User>>
@@ -17,7 +18,24 @@ export default function UsernameForm({ setUser, setCurrList, setIsUsernameFormVi
                     const usernameInput: HTMLInputElement | null = document.querySelector('.usernameInput');
                     const username = usernameInput ? usernameInput.value : 'User'
                     const newUser = new User({name: username});
-                    setCurrList(newUser.createTodoList(`${username}'s List`));
+                    const newTodoList = newUser.createTodoList(`${newUser.name}'s List`);
+                    if (newTodoList) {
+                        const newTodo1 = newTodoList.createTodo("Groceries")
+                        newTodo1.dueDate = add(new Date(), {days: 1})
+                        newTodo1.description = '- Bananas\n- Milk\n- Cereal\n- Bagels'
+                        const newTodo2 = newTodoList.createTodo("Send Email")
+                        newTodo2.urgent = true;
+                        newTodo2.complete = true;
+                        newTodo2.description = 'Share the schedule for next week with Devraj'
+                        const newTodo3 = newTodoList.createTodo("Take Out Trash")
+                        newTodo3.complete = true;
+                        newTodo3.urgent = true;
+                        newTodo3.description = 'Trash truck comes at 7am tomorrow'
+                        const newTodo4 = newTodoList.createTodo("Meal Prep")
+                        newTodo4.description = 'Chicken, Rice, and Broccoli bowls.'
+                        newTodo4.dueDate = nextSunday(new Date())
+                    }
+                    setCurrList(newTodoList);
                     saveToLocalStorage(newUser);
                     return newUser
                 })
