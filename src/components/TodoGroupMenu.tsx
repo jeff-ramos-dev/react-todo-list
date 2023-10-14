@@ -3,7 +3,7 @@ interface MenuProps {
 }
 
 export default function TodoGroupMenu({handleClick}: MenuProps) {
-    const menuOptions = ['All Todos', 'Today', 'This Week', 'This Month', 'Urgent'];
+    const menuOptions = ['All Todos', 'Today', 'This Week', 'This Month', 'Urgent', 'Complete', 'Incomplete'];
 
     const optionMap = menuOptions.map(opt => {
         return (

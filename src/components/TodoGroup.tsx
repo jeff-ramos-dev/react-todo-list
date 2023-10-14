@@ -31,6 +31,12 @@ export default function TodoGroup({ currList, selectedGroup, setCurrTodo, setIsE
         case "Urgent":
             todoArray = currList.getUrgentTodos()
             break;
+        case "Incomplete":
+            todoArray = currList.getIncompleteTodos()
+            break;
+        case "Complete":
+            todoArray = currList.getCompleteTodos();
+            break;
         default:
             todoArray = currList.getAllTodos()
     }
